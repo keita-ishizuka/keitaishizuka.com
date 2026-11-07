@@ -27,6 +27,7 @@ const navItems = [
   { id: 'sampler', label: '一様サンプラー' },
   { id: 'equivalence', label: '置換同値とグラフ同型' },
   { id: 'classification', label: '完全分類' },
+  { id: 'summary', label: 'まとめ' },
   { id: 'references', label: '参考文献' },
 ];
 ---
@@ -56,16 +57,16 @@ const navItems = [
         <p>hull は、自己双対符号など古典的な構造を含む、線形符号全体を記述する概念です。</p>
         <ul>
           <li>&#8467; = <em>k</em> のとき符号は双対に含まれ、自己直交符号と呼ばれます。2<em>k</em> = <em>n</em> なら自己双対符号です。</li>
-          <li>&#8467; = 0 のとき符号と双対の交わりは自明で、これが LCD 符号の場合です。Massey <a href="#ref-1" class="cite">[1]</a> が導入し、独自の大きな文献をもちます。</li>
-          <li>その間には残りすべてが並びます。</li>
+          <li>&#8467; = 0 のとき符号と双対の交わりは自明（零ベクトルのみ）で、これが LCD 符号の場合です <a href="#ref-1" class="cite">[1]</a>。</li>
+          <li>その間には残りすべての符号が並びます。</li>
         </ul>
 
         <p>hull の重要性を示す結果は数多くあります。</p>
         <ul>
-          <li>自己直交符号は符号ベース署名方式 SPECK <a href="#ref-2" class="cite">[2]</a> のインスタンスそのものであり、hull 次元を指定した符号は Hollow LWE <a href="#ref-3" class="cite">[3]</a> の構成要素です。</li>
-          <li>LCD 符号は、サイドチャネル攻撃とフォルトインジェクション攻撃への対策として利用できることが Carlet と Guilley <a href="#ref-4" class="cite">[4]</a> によって示されています。</li>
-          <li>hull 次元は、置換同値問題の標準的な解法である support splitting algorithm <a href="#ref-5" class="cite">[5]</a> の計算コストを支配し、インスタンスの難しさを決めます。</li>
-          <li>シンプレクティック形式とエルミート形式の場合、<em>C</em> の hull 次元は <em>C</em> から作るある種の量子誤り訂正符号（Entanglement-Assisted QECCs）における ebit 数そのものです <a href="#ref-6" class="cite">[6]</a><a href="#ref-7" class="cite">[7]</a>。つまり、ある種の量子符号はこれらの符号と等価です。</li>
+          <li><strong>符号ベース暗号への応用</strong>：自己直交符号は符号ベース署名方式 SPECK <a href="#ref-2" class="cite">[2]</a> のインスタンスそのものであり、hull 次元を指定した符号は Hollow LWE <a href="#ref-3" class="cite">[3]</a> の構成要素です。</li>
+          <li><strong>共通鍵暗号への応用</strong>：LCD 符号は、サイドチャネル攻撃とフォルトインジェクション攻撃への対策として利用できることが Carlet と Guilley <a href="#ref-4" class="cite">[4]</a> によって示されています。</li>
+          <li><strong>計算理論への応用</strong>：hull 次元は、置換同値問題の標準的な解法である support splitting algorithm <a href="#ref-5" class="cite">[5]</a> の計算コストを支配し、インスタンスの難しさを決めます。</li>
+          <li><strong>量子符号への応用</strong>：シンプレクティック形式とエルミート形式の場合、<em>C</em> の hull 次元は <em>C</em> から作るある種の量子誤り訂正符号（Entanglement-Assisted QECCs）における ebit 数そのものです <a href="#ref-6" class="cite">[6]</a><a href="#ref-7" class="cite">[7]</a>。つまり、ある種の量子符号はこれらの符号と等価です。</li>
         </ul>
 
         <p>このように、線形符号の hull は理論的にも応用的にも非常に興味深い対象です。私は現在、hull の特徴づけと、暗号・量子誤り訂正への応用に取り組んでいます。以下に示すのは、その一部です。</p>
@@ -73,15 +74,15 @@ const navItems = [
 
       <section id="sampler" class="scroll-mt-28">
         <h2 class="text-xl font-bold text-primary mt-12 mb-4">hull 次元を指定した線形符号の一様サンプラー</h2>
-        <p><a href={pubUrl(18)} target="_blank" rel="noopener">Uniform Sampling of Linear Codes with Prescribed Hull Dimension</a> は、hull 次元 &#8467; の [<em>n</em>, <em>k</em>] 符号を厳密に一様にサンプリングするアルゴリズムを与えます。すべての有限体 F<sub>q</sub> と、標準的なすべての内積（ユークリッド・エルミート・シンプレクティック）を、ひとつの枠組みで扱うことができます。証明には反射的形式の古典理論、Witt の拡張定理とその分類 <a href="#ref-8" class="cite">[8]</a>、および群を一様にサンプリングする Diaconis–Shahshahani の部分群アルゴリズム <a href="#ref-9" class="cite">[9]</a> などを用いました。</p>
+        <p><a href={pubUrl(18)} target="_blank" rel="noopener">Uniform Sampling of Linear Codes with Prescribed Hull Dimension</a> では、hull 次元 &#8467; の [<em>n</em>, <em>k</em>] 符号を厳密に一様にサンプリングするアルゴリズムを構成しました。すべての有限体 F<sub>q</sub> と、標準的なすべての内積（ユークリッド・エルミート・シンプレクティック）を、ひとつの枠組みで扱うことができます。証明には反射的形式の古典理論、Witt の拡張定理とその分類 <a href="#ref-8" class="cite">[8]</a>、および群を一様にサンプリングする Diaconis–Shahshahani の部分群アルゴリズム <a href="#ref-9" class="cite">[9]</a> などを用いました。</p>
 
         <SamplerOrbit locale={locale} />
 
+        <p>このアルゴリズムには非常に多くの応用があります。</p>
         <ul>
-          <li>符号同値を利用する方式は、まさにこの一様サンプリングを仮定しています。SPECK <a href="#ref-2" class="cite">[2]</a> は鍵生成で一様ランダムな自己直交符号を構成し、Hollow LWE <a href="#ref-3" class="cite">[3]</a> は hull 次元を指定して一様ランダムな符号を構成することを仮定しています。しかし、これまで知られていた構成は奇標数・2<em>k</em> &le; <em>n</em> の場合に限られ、hull 次元だけを指定したときの出力は、一様分布から全変動距離 q<sup>&minus;(k&minus;&#8467;)/2</sup> の範囲に収まるだけでした <a href="#ref-10" class="cite">[10]</a>。本研究は、標準的なすべての内積とすべての標数について、厳密な一様性を保証します。</li>
-          <li>また、上に述べたことから、ある種の方式の安全性の問題は符号の典型的な振る舞いに帰着します。サンプラーによって、その振る舞いの Monte Carlo シミュレーションと理論解析が可能になります。</li>
-          <li>シンプレクティック形式とエルミート形式の場合、hull 次元は <em>C</em> から作るエンタングルメント支援量子符号が消費する ebit 数そのものです。したがって同じサンプラーが、ebit 数を指定した EAQECC を引くことになります。この帰結は QIP 2027 のポスターで発表します。</li>
-          <li>置換同値によって符号を分類する際、通常は順序づけられた全列挙で進みます。符号を決まった順で生成し、これまでに分類した非同値な代表元と比較していくわけです。この方法では計算資源の制約から、順序で後ろに来る同値類には、現実には決して到達できないことがあります。サンプラーは、符号を一様ランダムに1つ返すことで、これを補う道具になります。論文では、有名なクーポン蒐集家の議論を適用して、分類に必要なサンプリングの回数を見積もりました。</li>
+          <li><strong>符号ベース暗号への応用</strong>：符号同値を利用する方式は、まさにこの一様サンプリングを仮定しています。SPECK <a href="#ref-2" class="cite">[2]</a> は鍵生成で一様ランダムな自己直交符号を構成し、Hollow LWE <a href="#ref-3" class="cite">[3]</a> は hull 次元を指定して一様ランダムな符号を構成することを仮定しています。しかし、これまで知られていた構成は奇標数・2<em>k</em> &le; <em>n</em> の場合に限られ、hull 次元だけを指定したときの出力は、一様分布から全変動距離 q<sup>&minus;(k&minus;&#8467;)/2</sup> の範囲に収まるだけでした <a href="#ref-10" class="cite">[10]</a>。本研究は、標準的なすべての内積とすべての標数について、厳密な一様性を保証します。</li>
+          <li><strong>量子誤り訂正符号への応用</strong>：シンプレクティック形式とエルミート形式の場合、hull 次元は <em>C</em> から作るエンタングルメント支援量子符号が消費する ebit 数そのものです。したがって同じサンプラーが、ebit 数を指定した EAQECC を引くことになります。</li>
+          <li><strong>符号分類への応用</strong>：置換同値によって符号を分類する際、通常は順序づけられた全列挙で進みます。符号を決まった順で生成し、これまでに分類した非同値な代表元と比較していくわけです。この方法では計算資源の制約から、順序で後ろに来る同値類には、現実には決して到達できないことがあります。サンプラーは、符号を一様ランダムに1つ返すことで、これを補う道具になります。論文では、有名なクーポン蒐集家の議論を適用して、分類に必要なサンプリングの回数を見積もりました。</li>
         </ul>
       </section>
 
@@ -92,11 +93,11 @@ const navItems = [
         <PepColumns locale={locale} />
 
         <p>Petrank と Roth は、グラフ同型は置換同値に帰着できることを示しました <a href="#ref-11" class="cite">[11]</a>。逆に、Bardet らは LCD 符号の同値判定をグラフ同型に帰着しました <a href="#ref-12" class="cite">[12]</a>。Babai のアルゴリズムはグラフ同型を準多項式時間で解くので <a href="#ref-13" class="cite">[13]</a>、LCD 符号の同値判定は易しいということになります。しかし、ここで自然な問いが生じます。それは、「置換同値がグラフ同型に帰着する符号は LCD 以外にあるのか」というものです。</p>
-        <p><a href={pubUrl(11)} target="_blank" rel="noopener">The Closure of LCD-to-GI Reductions via Generalized Inner Products</a> は、その問いに対する答えです。ユークリッド内積を一般の双線形形式に置き換えると、議論を駆動する直交射影が一般化され、帰着は LCD の場合を越えて hull 次元 1 の一部にまで届きます。さらに、直交射影に基づく帰着で到達できるのはこれがすべてであることを証明しました。帰着できる符号は特徴づけと数え上げが済んでおり、符号全体に占める割合も分かっています。</p>
+        <p><a href={pubUrl(11)} target="_blank" rel="noopener">The Closure of LCD-to-GI Reductions via Generalized Inner Products</a> は、その問いに対する答えです。ユークリッド内積を一般の双線形形式に置き換えると、帰着は LCD の場合を越えて hull 次元 1 の一部にまで届くことを示しました。さらに、Bardet らの方法（直交射影に基づく帰着）で到達できるのはこれがすべてであることを証明しました。帰着できる符号は特徴づけと数え上げが済んでおり、符号全体に占める割合も明示的な式で与え、極限も導出しました。</p>
 
         <HullReach locale={locale} />
 
-        <p>置換同値に関するもうひとつの仕事は、置換同値問題の標準的な解法である support splitting algorithm <a href="#ref-5" class="cite">[5]</a> についてです。このアルゴリズムの計算コストは hull 次元に支配されます。上と同じ一般化形式を使って、アルゴリズムが適用可能であるための条件を保ったまま hull 次元を下げられるのはいつかを特徴づけ、それが可能な次元のクラスを特定しました。この結果は <a href={pubUrl(16)} target="_blank" rel="noopener">Bilinear Hulls for Support Splitting</a> として SAC 2026 で発表しています。</p>
+        <p>置換同値に関するもうひとつの仕事は、置換同値問題の標準的な解法である support splitting algorithm <a href="#ref-5" class="cite">[5]</a> についてです。このアルゴリズムの計算コストは hull 次元が支配的です。上と同じ双線形形式への一般化を行い、アルゴリズムが適用可能であるための条件を保ったまま hull 次元を下げられるのはいつかを特徴づけ、それが可能な次元のクラスを特定しました。この結果は <a href={pubUrl(16)} target="_blank" rel="noopener">Bilinear Hulls for Support Splitting</a> として SAC 2026 で発表しています。</p>
       </section>
 
       <section id="classification" class="scroll-mt-28">
@@ -109,6 +110,11 @@ const navItems = [
         <p>この帰着によって、Leon のアルゴリズム <a href="#ref-15" class="cite">[15]</a> では届かない長さまで分類を進めることができました。結果、2元 LCD 符号は長さ19、3元は長さ15、4元エルミートは長さ13まで分類を更新しました。さらに、これが到達可能な限界であることも論じました。次の長さへ進むと出力がテラバイトからペタバイト規模になり、現在の計算資源では保存も配布もできないことを示したのです。この結果は、<a href={pubUrl(24)} target="_blank" rel="noopener">Classification of binary, ternary and quaternary Hermitian LCD codes</a> として発表しました。</p>
 
         <p>各同値類の代表元は、2元 LCD 符号とそのグラフ表現とあわせてオープンデータとして公開しています。<a href="/ja/data/#lcd_classification">データ一覧はこちら</a>から入手できます。</p>
+      </section>
+
+      <section id="summary" class="scroll-mt-28">
+        <h2 class="text-xl font-bold text-primary mt-12 mb-4">まとめ</h2>
+        <p>このように、私は線形代数や群論を用いて符号の数学的な性質を証明したりアルゴリズムを考案することで、符号理論のみならず暗号や量子情報理論にも有益な研究を行っています。</p>
       </section>
 
       <section id="references" class="scroll-mt-28 not-prose">
