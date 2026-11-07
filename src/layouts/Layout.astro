@@ -6,9 +6,10 @@ interface Props {
   description: string;
   type?: 'website' | 'article';
   published?: Date;
+  noindex?: boolean;
 }
 
-const { title, description, type = 'website', published } = Astro.props;
+const { title, description, type = 'website', published, noindex = false } = Astro.props;
 
 const SITE = 'https://keitaishizuka.com';
 
@@ -86,7 +87,7 @@ const webSite = {
     <meta name="color-scheme" content="light" />
     <meta name="description" content={description} />
     <meta name="author" content="Keita Ishizuka" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={`${SITE}${enPath}`} />

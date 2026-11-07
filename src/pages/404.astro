@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+
+// GitHub Pages serves this one file for every missing path, in both locales,
+// so the Japanese copy is swapped in by the script below when the path is /ja/.
+---
+
+<Layout title="Page not found — Keita Ishizuka" description="This page does not exist." noindex={true}>
+  <Nav />
+
+  <main class="max-w-3xl mx-auto px-6 pt-32 pb-24">
+    <p class="font-mono text-sm font-medium text-accent mb-3">404</p>
+
+    <div data-en>
+      <h1 class="text-3xl font-bold text-primary tracking-tight mb-4">This page does not exist</h1>
+      <p class="text-text leading-relaxed mb-10">The address may be out of date, or the page may have been renamed. The three pages of this site are below.</p>
+      <ul class="space-y-3">
+        <li><a href="/en/" class="text-accent font-medium hover:underline">Home</a><span class="text-text-muted text-sm"> — profile, publications, funding</span></li>
+        <li><a href="/en/research/" class="text-accent font-medium hover:underline">Research Interests</a><span class="text-text-muted text-sm"> — what I am working on</span></li>
+        <li><a href="/en/data/" class="text-accent font-medium hover:underline">Data &amp; Software</a><span class="text-text-muted text-sm"> — the published datasets</span></li>
+      </ul>
+    </div>
+
+    <div data-ja hidden>
+      <h1 class="text-3xl font-bold text-primary tracking-tight mb-4">ページが見つかりません</h1>
+      <p class="text-text leading-relaxed mb-10">アドレスが古いか、ページの名前が変わった可能性があります。このサイトのページは以下の3つです。</p>
+      <ul class="space-y-3">
+        <li><a href="/ja/" class="text-accent font-medium hover:underline">ホーム</a><span class="text-text-muted text-sm"> — プロフィール・論文・研究費</span></li>
+        <li><a href="/ja/research/" class="text-accent font-medium hover:underline">研究の関心</a><span class="text-text-muted text-sm"> — いま取り組んでいること</span></li>
+        <li><a href="/ja/data/" class="text-accent font-medium hover:underline">データ・ソフトウェア</a><span class="text-text-muted text-sm"> — 公開しているデータセット</span></li>
+      </ul>
+    </div>
+  </main>
+
+  <script is:inline>
+    if (location.pathname.startsWith('/ja/')) {
+      document.documentElement.lang = 'ja';
+      document.querySelector('[data-en]').hidden = true;
+      document.querySelector('[data-ja]').hidden = false;
+    }
+  </script>
+</Layout>
