@@ -20,43 +20,6 @@ html {
   color-scheme: light;
 }
 
-/* dark palette: the same tokens, re-bound. follows the operating system. */
-@media (prefers-color-scheme: dark) {
-  :root {
-  color-scheme: dark;
-  --color-primary: #e9edf4;
-  --color-accent: #58a6d8;
-  --color-accent-light: #79bbe6;
-  --color-surface: #171a20;
-  --color-surface-alt: #1f232b;
-  --color-text: #dfe3ea;
-  --color-text-muted: #98a2b0;
-  --color-border: #2c313a;
-  --color-page: #101317;
-  }
-  }
-
-@media (prefers-color-scheme: dark) {
-  .prose {
-  --tw-prose-body: var(--color-text);
-  --tw-prose-headings: var(--color-primary);
-  --tw-prose-lead: var(--color-text-muted);
-  --tw-prose-links: var(--color-accent);
-  --tw-prose-bold: var(--color-primary);
-  --tw-prose-counters: var(--color-text-muted);
-  --tw-prose-bullets: var(--color-border);
-  --tw-prose-hr: var(--color-border);
-  --tw-prose-quotes: var(--color-text);
-  --tw-prose-quote-borders: var(--color-border);
-  --tw-prose-captions: var(--color-text-muted);
-  --tw-prose-code: var(--color-primary);
-  --tw-prose-pre-code: var(--color-text);
-  --tw-prose-pre-bg: var(--color-surface-alt);
-  --tw-prose-th-borders: var(--color-border);
-  --tw-prose-td-borders: var(--color-border);
-  }
-}
-
 body {
   transition: background-color 0.2s ease, color 0.2s ease;
   font-family: var(--font-sans);
