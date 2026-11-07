@@ -1,0 +1,50 @@
+---
+interface Props {
+  locale?: 'en' | 'ja';
+}
+const { locale = 'en' } = Astro.props;
+const ja = locale === 'ja';
+
+const dots = [[219,71],[369,57],[317,107],[97,131],[265,186],[127,83],[359,206],[465,94],[212,184],[364,108],[322,56],[215,145],[278,96],[435,164],[312,194],[406,94],[140,128],[390,146],[288,158],[98,164],[198,116],[508,162]];
+const hit = [[317,107],[278,96],[288,158],[390,146]];
+const C0 = [150, 175];
+
+const txt = ja
+  ? {
+      orbit: 'hull 次元 &#8467; の [n, k] 符号全体 ＝ 等長変換群 G のひとつの軌道',
+      rep: 'C₀（固定した代表元）',
+      act: 'g · C₀,  g ← G を一様に',
+      cap: 'Witt の拡張定理により、hull 次元 ℓ の符号全体は等長変換群のひとつの軌道になります。したがって固定した代表元 C₀ に一様ランダムな g を作用させれば、厳密に一様な符号が得られます。残る仕事は群 G を一様にサンプリングすることで、これは Diaconis–Shahshahani の部分群アルゴリズムで行います。',
+    }
+  : {
+      orbit: 'all [n, k] codes of hull dimension &#8467; = one orbit of the isometry group G',
+      rep: 'C₀ (fixed representative)',
+      act: 'g · C₀ with g drawn uniformly from G',
+      cap: 'By Witt’s extension theorem the codes of a given hull dimension form a single orbit of the isometry group. Applying a uniformly random g to one fixed representative C₀ therefore returns an exactly uniform code, and what is left to do is to sample the group G uniformly, which is the subgroup algorithm of Diaconis and Shahshahani.',
+    };
+---
+
+<figure class="not-prose my-10">
+  <div class="rounded-xl border border-border bg-surface p-5">
+    <svg viewBox="0 0 600 265" class="w-full" role="img" aria-label={txt.orbit.replace(/&#8467;/g, 'l')}>
+      <ellipse cx="300" cy="130" rx="250" ry="92" class="fill-surface-alt stroke-border" stroke-width="1.5" stroke-dasharray="5 4" />
+      {dots.map(([x, y]) => <circle cx={x} cy={y} r="3.5" class="fill-border" />)}
+      {hit.map(([x, y]) => (
+        <g>
+          <path d={`M ${C0[0] + 8} ${C0[1] - 6} Q ${(C0[0] + x) / 2} ${Math.min(C0[1], y) - 34} ${x - 4} ${y + 5}`} class="fill-none stroke-accent" stroke-width="1.5" opacity="0.45" marker-end="url(#arrow-orbit)" />
+          <circle cx={x} cy={y} r="4.5" class="fill-accent" opacity="0.75" />
+        </g>
+      ))}
+      <circle cx={C0[0]} cy={C0[1]} r="6" class="fill-accent stroke-page" stroke-width="2" />
+      <text x={C0[0]} y={C0[1] + 24} class="fill-primary" font-size="12" text-anchor="middle">{txt.rep}</text>
+      <text x="300" y="256" class="fill-text-muted" font-size="12" text-anchor="middle">{txt.act}</text>
+      <defs>
+        <marker id="arrow-orbit" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="fill-accent" opacity="0.6" />
+        </marker>
+      </defs>
+    </svg>
+    <p class="mt-1 text-center text-xs text-text-muted" set:html={txt.orbit} />
+  </div>
+  <figcaption class="mt-3 text-xs leading-relaxed text-text-muted">{txt.cap}</figcaption>
+</figure>

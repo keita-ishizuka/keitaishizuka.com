@@ -1,0 +1,208 @@
+---
+import { t } from '../i18n';
+
+export interface NavItem {
+  id: string;
+  label: string;
+  subs?: { id: string; label: string }[];
+}
+
+interface Props {
+  locale: 'en' | 'ja';
+  pubKeys?: string[];
+  items?: NavItem[];
+  inline?: boolean;
+  /** half-width of the page column, so the rail sits just outside it */
+  offset?: string;
+}
+const { locale, pubKeys = [], items, inline = true, offset = '28rem' } = Astro.props;
+
+const top: NavItem[] =
+  items ?? [
+    { id: 'research', label: t(locale, 'home.section.research') },
+    {
+      id: 'publications',
+      label: t(locale, 'home.section.publications'),
+      subs: pubKeys.map((k) => ({ id: `pub-${k}`, label: t(locale, `home.section.${k}`) })),
+    },
+    { id: 'grants', label: t(locale, 'toc.grants') },
+    { id: 'background', label: t(locale, 'home.section.background') },
+  ];
+
+// flat list for the mobile sheet and for the scroll spy
+const flat = top.flatMap((it) => [it, ...(it.subs ?? [])]);
+const flatParents = new Set(top.map((it) => it.id));
+---
+
+{/* wide screens: a Zenn/Qiita style table of contents in the right margin */}
+<nav
+  id="toc-rail"
+  aria-label={t(locale, 'toc.label')}
+  class="hidden min-[1400px]:block fixed top-28 max-h-[70vh] w-52 overflow-y-auto z-30 [scrollbar-width:thin]"
+  style={`left: calc(50vw + ${offset} + 2.5rem);`}
+>
+  <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">{t(locale, 'toc.heading')}</p>
+  <ul class="border-l border-border text-sm">
+    {top.map((it) => (
+      <li>
+        <a
+          href={`#${it.id}`}
+          data-toc={it.id}
+          class="toc-link block -ml-px border-l-2 border-transparent py-1.5 pl-4 text-text-muted transition-colors hover:text-accent"
+        >{it.label}</a>
+        {(it.subs ?? []).length > 0 && (
+          <ul>
+            {(it.subs ?? []).map((s) => (
+              <li>
+                <a
+                  href={`#${s.id}`}
+                  data-toc={s.id}
+                  data-toc-parent={it.id}
+                  class="toc-link block -ml-px border-l-2 border-transparent py-1 pl-7 text-xs text-text-muted transition-colors hover:text-accent"
+                >{s.label}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+{/* narrow screens: one quiet line under the hero, not a second header */}
+{inline && (
+  <nav aria-label={t(locale, 'toc.label')} class="min-[1400px]:hidden mb-2 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-muted">
+    {top.map((it) => (
+      <a href={`#${it.id}`} class="hover:text-accent transition-colors">{it.label}</a>
+    ))}
+  </nav>
+)}
+
+{/* narrow screens: a floating contents button, appears once you are past the hero */}
+<div class="min-[1400px]:hidden">
+  <div
+    id="toc-fab-wrap"
+    class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-2 opacity-0 translate-y-2 pointer-events-none transition-all duration-200"
+  >
+    <div
+      id="toc-fab-panel"
+      hidden
+      class="max-h-[60vh] min-w-44 overflow-y-auto rounded-xl border border-border bg-page/95 py-1.5 shadow-lg backdrop-blur-md"
+    >
+      {flat.map((it) => (
+        <a
+          href={`#${it.id}`}
+          class={`block py-2 text-sm text-text transition-colors hover:bg-surface hover:text-accent ${
+            flatParents.has(it.id) ? 'px-4' : 'pl-7 pr-4 text-xs text-text-muted'
+          }`}
+        >{it.label}</a>
+      ))}
+    </div>
+    <button
+      id="toc-fab"
+      type="button"
+      aria-label={t(locale, 'toc.label')}
+      aria-expanded="false"
+      class="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform active:scale-95"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h12M4 10h12M4 14h8" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-toc]'));
+  if (links.length > 0) {
+    // document order, so a subsection always comes after its parent section
+    const items = links
+      .map((a) => ({ a, el: document.getElementById(a.dataset.toc!) }))
+      .filter((x): x is { a: HTMLAnchorElement; el: HTMLElement } => x.el !== null);
+
+    const setActive = (id: string | null) => {
+      const active = items.find(({ a }) => a.dataset.toc === id);
+      const parent = active?.a.dataset.tocParent ?? null;
+      for (const { a } of items) {
+        const key = a.dataset.toc;
+        const on = key === id;
+        const half = key === parent;
+        a.classList.toggle('text-accent', on);
+        a.classList.toggle('font-medium', on || half);
+        a.classList.toggle('border-accent', on);
+        a.classList.toggle('border-transparent', !on);
+        a.classList.toggle('text-text', half);
+        a.classList.toggle('text-text-muted', !on && !half);
+      }
+    };
+
+    // the heading closest above the reading line wins; nesting falls out of document order
+    const LINE = 140; // a little below scroll-mt-28, so a clicked heading is the active one
+    let queued = 0;
+    const spy = () => {
+      queued = 0;
+      let active: string | null = null;
+      for (const { el } of items) {
+        if (el.getBoundingClientRect().top <= LINE) active = el.id;
+        else break;
+      }
+      // the last sections may be too short to ever reach the line, so at the
+      // bottom of the page the last heading above the viewport wins
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        for (const { el } of items) {
+          if (el.getBoundingClientRect().top <= window.innerHeight * 0.5) active = el.id;
+          else break;
+        }
+      }
+      setActive(active);
+    };
+    const schedule = () => {
+      if (queued) return;
+      queued = requestAnimationFrame(spy);
+    };
+    spy();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    // expanding a publication list moves every heading below it
+    document.addEventListener('click', () => setTimeout(schedule, 0), true);
+  }
+
+  const fab = document.getElementById('toc-fab');
+  const fabWrap = document.getElementById('toc-fab-wrap');
+  const fabPanel = document.getElementById('toc-fab-panel');
+  if (fab && fabWrap && fabPanel) {
+    const SHOWN = ['opacity-100', 'translate-y-0', 'pointer-events-auto'];
+    const HIDDEN = ['opacity-0', 'translate-y-2', 'pointer-events-none'];
+
+    const close = () => {
+      fabPanel.hidden = true;
+      fab.setAttribute('aria-expanded', 'false');
+    };
+
+    fab.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const open = fabPanel.hidden;
+      fabPanel.hidden = !open;
+      fab.setAttribute('aria-expanded', String(open));
+    });
+    fabPanel.addEventListener('click', close);
+    document.addEventListener('click', close);
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') close();
+    });
+
+    let shown = false;
+    const sync = () => {
+      const want = window.scrollY > 420;
+      if (want === shown) return;
+      shown = want;
+      for (const c of SHOWN) fabWrap.classList.toggle(c, want);
+      for (const c of HIDDEN) fabWrap.classList.toggle(c, !want);
+      if (!want) close();
+    };
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
+  }
+</script>

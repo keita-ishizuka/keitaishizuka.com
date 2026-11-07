@@ -1,0 +1,242 @@
+{
+  "collections": [
+    {
+      "key": "lcd_classification",
+      "title": "Classification of LCD codes over F₂, F₃ and F₄",
+      "title_ja": "LCD符号の完全分類（F₂・F₃・F₄エルミート）",
+      "short": "LCD classification",
+      "short_ja": "LCD符号の分類",
+      "summary": "Generator matrices of one representative of every equivalence class of linear complementary dual (LCD) codes: binary codes of length up to 19, ternary codes of length up to 15, and quaternary Hermitian LCD codes of length up to 13. Complete in each range.",
+      "summary_ja": "線形相補双対（LCD）符号の全同値類の代表元の生成行列。2元は長さ19以下、3元は長さ15以下、4元エルミートは長さ13以下。各範囲で完全分類。",
+      "format": "Plain-text generator matrices, xz-compressed, split into parts. Each record carries a README.md describing the full ten-record set.",
+      "format_ja": "生成行列のプレーンテキストを xz 圧縮して分割。各レコードに全10件を説明する README.md を同梱。",
+      "license": "CC-BY-4.0",
+      "published": "2026-10-19",
+      "updated": "2026-11-06",
+      "updated_note": "Binary part 1 replaced by version 1.1: the orders of the automorphism groups of two codes in q2_n19_k1 were corrected.",
+      "updated_note_ja": "2元 part 1 を version 1.1 に更新。q2_n19_k1 の2個の符号の自己同型群の位数を修正。",
+      "paper": {
+        "authors": [
+          "Keita Ishizuka"
+        ],
+        "title": "Classification of binary, ternary and quaternary Hermitian LCD codes",
+        "arxiv": "2610.30561"
+      },
+      "table": {
+        "head": [
+          "Field",
+          "Lengths covered",
+          "Records",
+          "Size"
+        ],
+        "head_ja": [
+          "体",
+          "長さ",
+          "レコード",
+          "サイズ"
+        ],
+        "rows": [
+          {
+            "label": "F₂",
+            "sub": "Binary",
+            "sub_ja": "2元",
+            "c1": "n ≤ 19",
+            "c2": "5 records",
+            "c2_ja": "5レコード",
+            "bytes": 204357538477
+          },
+          {
+            "label": "F₃",
+            "sub": "Ternary",
+            "sub_ja": "3元",
+            "c1": "n ≤ 15",
+            "c2": "4 records",
+            "c2_ja": "4レコード",
+            "bytes": 141541997948
+          },
+          {
+            "label": "F₄",
+            "sub": "Quaternary Hermitian",
+            "sub_ja": "4元エルミート",
+            "c1": "n ≤ 13",
+            "c2": "1 record",
+            "c2_ja": "1レコード",
+            "bytes": 18157805751
+          }
+        ]
+      },
+      "records": [
+        {
+          "title": "LCD codes: binary codes, part 1 of 5",
+          "doi": "10.5281/zenodo.23990903",
+          "concept_doi": "10.5281/zenodo.23461336",
+          "version": "1.1",
+          "bytes": 40995010524
+        },
+        {
+          "title": "LCD codes: binary codes, part 2 of 5",
+          "doi": "10.5281/zenodo.23461339",
+          "concept_doi": "10.5281/zenodo.23461338",
+          "bytes": 40888103859
+        },
+        {
+          "title": "LCD codes: binary codes, part 3 of 5",
+          "doi": "10.5281/zenodo.23461341",
+          "concept_doi": "10.5281/zenodo.23461340",
+          "bytes": 40603427246
+        },
+        {
+          "title": "LCD codes: binary codes, part 4 of 5",
+          "doi": "10.5281/zenodo.23461343",
+          "concept_doi": "10.5281/zenodo.23461342",
+          "bytes": 41264999586
+        },
+        {
+          "title": "LCD codes: binary codes, part 5 of 5",
+          "doi": "10.5281/zenodo.23461345",
+          "concept_doi": "10.5281/zenodo.23461344",
+          "bytes": 40605997262
+        },
+        {
+          "title": "LCD codes: ternary codes, part 1 of 4",
+          "doi": "10.5281/zenodo.23461347",
+          "concept_doi": "10.5281/zenodo.23461346",
+          "bytes": 35732774406
+        },
+        {
+          "title": "LCD codes: ternary codes, part 2 of 4",
+          "doi": "10.5281/zenodo.23461349",
+          "concept_doi": "10.5281/zenodo.23461348",
+          "bytes": 34869967302
+        },
+        {
+          "title": "LCD codes: ternary codes, part 3 of 4",
+          "doi": "10.5281/zenodo.23461351",
+          "concept_doi": "10.5281/zenodo.23461350",
+          "bytes": 35766425854
+        },
+        {
+          "title": "LCD codes: ternary codes, part 4 of 4",
+          "doi": "10.5281/zenodo.23461353",
+          "concept_doi": "10.5281/zenodo.23461352",
+          "bytes": 35172830386
+        },
+        {
+          "title": "LCD codes: quaternary Hermitian codes, part 1 of 1",
+          "doi": "10.5281/zenodo.23461355",
+          "concept_doi": "10.5281/zenodo.23461354",
+          "bytes": 18157805751
+        }
+      ]
+    },
+    {
+      "key": "even_lcd_graphs",
+      "title": "Simple graphs with idempotent adjacency matrices over F₂ on at most 19 vertices",
+      "title_ja": "F₂ 上で冪等な隣接行列をもつ19頂点以下の単純グラフ",
+      "short": "Idempotent graphs",
+      "short_ja": "冪等グラフ",
+      "summary": "One representative of every isomorphism class of simple graphs on at most 19 vertices, with at least one edge, whose adjacency matrix A satisfies A² = A over F₂: 81,748,770 graphs in all. These graphs are exactly the orthogonal projectors of the binary even LCD codes, and two graphs are isomorphic precisely when the corresponding codes are permutation equivalent, so the data also classify every binary even LCD code of length at most 19. Each line carries the minimum distance of the code, the order of the automorphism group and the adjacency matrix. Completeness is certified by the mass formula for binary even LCD codes at every length and dimension.",
+      "summary_ja": "隣接行列 A が F₂ 上で A² = A をみたす、辺を1本以上もつ19頂点以下の単純グラフについて、全同型類の代表元を1つずつ収録（計 81,748,770 個）。これらは2元偶LCD符号の直交射影子そのものであり、グラフの同型は符号の置換同値に対応するため、長さ19以下の2元偶LCD符号の完全分類にもなっている。各行は符号の最小距離・自己同型群の位数・隣接行列。完全性は各長さ・各次元で2元偶LCD符号の質量公式により確認済み。",
+      "format": "Plain-text adjacency matrices, xz-compressed, one file per (vertices, dimension). Summary tables counts_nk.csv and stats_nkd.csv, plus README.md.",
+      "format_ja": "隣接行列のプレーンテキストを xz 圧縮し、（頂点数, 次元）ごとに1ファイル。集計表 counts_nk.csv・stats_nkd.csv と README.md を同梱。",
+      "license": "CC-BY-4.0",
+      "published": "2026-11-05",
+      "paper": {
+        "authors": [
+          "Keita Ishizuka"
+        ],
+        "title": "Binary LCD Codes and Their Graph Representations",
+        "arxiv": "2407.07689"
+      },
+      "table": {
+        "head": [
+          "Vertices",
+          "Dimensions",
+          "Graphs",
+          "Size"
+        ],
+        "head_ja": [
+          "頂点数",
+          "次元",
+          "グラフ数",
+          "サイズ"
+        ],
+        "rows": [
+          {
+            "label": "n = 19",
+            "c1": "k = 2 – 18",
+            "c2": "76,578,177 graphs",
+            "c2_ja": "76,578,177個",
+            "bytes": 4213180024
+          },
+          {
+            "label": "n = 18",
+            "c1": "k = 2 – 16",
+            "c2": "4,680,268 graphs",
+            "c2_ja": "4,680,268個",
+            "bytes": 215521376
+          },
+          {
+            "label": "n = 17",
+            "c1": "k = 2 – 16",
+            "c2": "424,531 graphs",
+            "c2_ja": "424,531個",
+            "bytes": 14638344
+          },
+          {
+            "label": "n = 16",
+            "c1": "k = 2 – 14",
+            "c2": "52,464 graphs",
+            "c2_ja": "52,464個",
+            "bytes": 1427860
+          },
+          {
+            "label": "n ≤ 15",
+            "c1": "k = 2 – 14",
+            "c2": "13,330 graphs",
+            "c2_ja": "13,330個",
+            "bytes": 311380
+          }
+        ]
+      },
+      "records": [
+        {
+          "title": "Simple graphs with idempotent adjacency matrices over F2 on at most 19 vertices",
+          "doi": "10.5281/zenodo.23988490",
+          "concept_doi": "10.5281/zenodo.23988489",
+          "version": "1.0",
+          "bytes": 4445093609
+        }
+      ]
+    },
+    {
+      "key": "codim8",
+      "title": "Construction data for binary LCD codes of codimension 8",
+      "title_ja": "余次元8の2元LCD符号の構成データ",
+      "short": "Codimension 8",
+      "short_ja": "余次元8",
+      "summary": "Explicit binary LCD [n, n-8] codes for every n with 9 ≤ n ≤ 247, given as subsets S of F₂⁸ \\ {0} whose parity-check matrix H_S satisfies det(H_S H_S^T) ≠ 0. These determine the largest minimum weight d(n, n-8) for all n. Includes a dependency-free Python script that re-verifies every stated property.",
+      "summary_ja": "9 ≤ n ≤ 247 の全ての n に対する2元LCD [n, n-8] 符号の明示的構成。H_S H_S^T が正則となる F₂⁸ \\ {0} の部分集合 S として与える。これにより全ての n で最大最小重み d(n, n-8) が決まる。記載した性質を全て再検証する依存関係なしの Python スクリプトを同梱。",
+      "format": "Plain text (codim8_sets.txt), verification script (verify.py), README.md.",
+      "format_ja": "プレーンテキスト（codim8_sets.txt）、検証スクリプト（verify.py）、README.md。",
+      "license": "CC-BY-4.0",
+      "published": "2026-10-22",
+      "paper": {
+        "authors": [
+          "Keita Ishizuka",
+          "Yuhi Kamio"
+        ],
+        "title": "Caps and LCD Codes with Large Dimensions",
+        "arxiv": "2604.03734"
+      },
+      "records": [
+        {
+          "title": "Construction data for binary LCD codes of codimension 8",
+          "doi": "10.5281/zenodo.23486097",
+          "concept_doi": "10.5281/zenodo.23486096",
+          "bytes": 113475
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+---
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import SectionNav from '../../components/SectionNav.astro';
+import { t, localePath } from '../../i18n';
+import pubsData from '../../data/publications.json';
+import grantsData from '../../data/grants.json';
+import cvData from '../../data/cv.json';
+
+const locale = 'ja' as const;
+
+const cvPath = new URL('../../../public/cv.pdf', import.meta.url);
+const cvV = fs.existsSync(cvPath)
+  ? crypto.createHash('sha256').update(fs.readFileSync(cvPath)).digest('hex').slice(0, 10)
+  : '';
+
+const ORCID = '0000-0001-5943-6245';
+
+const PHOTO_FILES = ['profile.webp', 'profile.jpg', 'profile.jpeg', 'profile.png'];
+const photo = PHOTO_FILES.find((f) => fs.existsSync(new URL(`../../../public/${f}`, import.meta.url)));
+const photoV = photo
+  ? crypto.createHash('sha256').update(fs.readFileSync(new URL(`../../../public/${photo}`, import.meta.url))).digest('hex').slice(0, 10)
+  : '';
+
+const ARXIV_RE = /^\d{4}\.\d{4,5}$/;
+const hasArxiv = (p: any) => typeof p.arxiv === 'string' && ARXIV_RE.test(p.arxiv);
+const OUT = ['published', 'accepted', 'camera_ready_submitted', 'in_press', 'presented'];
+const TO_APPEAR = ['accepted', 'camera_ready_submitted', 'in_press'];
+const UNDER_REVIEW = ['preprint', 'under_review', 'submitted', 'under review (revision 1)'];
+const byYearDesc = (a: any, b: any) => (b.year || 0) - (a.year || 0) || (b.month || 12) - (a.month || 0);
+const ofType = (t: string) => pubsData.papers.filter((p: any) => p.type === t && OUT.includes(p.status)).sort(byYearDesc);
+
+const shownGrants = grantsData.grants.filter((g: any) => g.show_on_site !== false);
+const grantGroups = [
+  { key: 'active', items: shownGrants.filter((g: any) => g.status === 'active') },
+  { key: 'awarded', items: shownGrants.filter((g: any) => g.status === 'awarded_pre_contract') },
+  { key: 'completed', items: shownGrants.filter((g: any) => g.status === 'completed') },
+].filter((g) => g.items.length > 0);
+
+const cvGroups = [
+  { key: 'appointments', items: cvData.appointments },
+  { key: 'visits', items: cvData.visits },
+  { key: 'education', items: cvData.education },
+];
+const journals = cvData.service.referee_for;
+const refereeLine = `${journals.join('、')} の査読。`;
+const PUB_LIMIT = 5;
+const pubSections = [
+  { key: 'journals', prefix: 'J', numbered: true, items: ofType('journal') },
+  { key: 'proceedings', prefix: 'C', numbered: true, items: ofType('proceedings') },
+  { key: 'posters', prefix: 'P', numbered: true, items: ofType('poster') },
+  {
+    key: 'preprints', prefix: '', numbered: false,
+    items: pubsData.papers.filter((p: any) => UNDER_REVIEW.includes(p.status) && hasArxiv(p)).sort(byYearDesc),
+  },
+  { key: 'talks', prefix: 'T', numbered: true, items: ofType('talk') },
+  { key: 'seminars', prefix: 'S', numbered: true, items: ofType('seminar') },
+  { key: 'other', prefix: '', numbered: false, items: ofType('translation') },
+].filter((s) => s.items.length > 0);
+
+function formatPeriod(period: string) {
+  const ym = (t: string) => {
+    const m = /^(\d{4})-(\d{2})$/.exec(t.trim());
+    return m ? `${m[1]}年${Number(m[2])}月` : t.trim();
+  };
+  const parts = period.split(/\s+to\s+/);
+  return parts.length === 2 ? `${ym(parts[0])}〜${ym(parts[1])}` : ym(period);
+}
+
+function formatAuthors(authors: any, highlight: string = 'Keita Ishizuka') {
+  if (!Array.isArray(authors)) return '';
+  return authors.map((a: string) => a === highlight ? `<strong>${a}</strong>` : a).join(', ');
+}
+---
+
+<Layout title={t(locale, 'home.title')} description={t(locale, 'home.description')}>
+  <Nav current="home" />
+
+  <main class="max-w-4xl mx-auto px-6">
+    <section class="pt-32 pb-16">
+      <div class="flex flex-col sm:flex-row items-start gap-8">
+        <div class="flex-1">
+          <div class="flex items-center gap-4 mb-4 sm:block">
+            <div class="min-w-0">
+              <h1 class="text-3xl sm:text-4xl font-bold text-primary tracking-tight mb-2">{t(locale, 'home.name')}</h1>
+              <p class="text-lg text-accent-light font-medium">{t(locale, 'home.name_alt')}</p>
+            </div>
+            {photo && (
+              <img
+                src={`/${photo}?v=${photoV}`}
+                alt={t(locale, 'home.photo_alt')}
+                width="96"
+                height="96"
+                loading="eager"
+                class="order-first w-24 aspect-square shrink-0 rounded-xl object-cover border border-border sm:hidden"
+              />
+            )}
+          </div>
+          <p class="text-text-muted mb-3 leading-relaxed max-w-2xl" set:html={t(locale, 'home.affiliation')} />
+          <p class="text-text leading-relaxed max-w-2xl" set:html={t(locale, 'home.intro')} />
+
+          <div class="flex flex-wrap items-center gap-3 mt-8">
+            <a href={`/cv.pdf?v=${cvV}`} class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-lg text-sm font-semibold shadow-sm hover:bg-accent-light transition-colors" target="_blank" rel="noopener">
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 12v1.5h10V12" /></svg>
+              {t(locale, 'home.cv')}
+            </a>
+            <a href="https://arxiv.org/search/?query=Keita+Ishizuka&searchtype=author" class="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:border-accent hover:text-accent transition-colors" target="_blank" rel="noopener">arXiv</a>
+            <a href="https://scholar.google.com/citations?user=JCmQRmUAAAAJ&hl=en" class="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:border-accent hover:text-accent transition-colors" target="_blank" rel="noopener">Google Scholar</a>
+            {locale === 'ja' && (
+              <a href="https://researchmap.jp/keita_ishizuka" class="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:border-accent hover:text-accent transition-colors" target="_blank" rel="noopener">researchmap</a>
+            )}
+            <a href={`https://orcid.org/${ORCID}`} class="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:border-accent hover:text-accent transition-colors" target="_blank" rel="noopener">ORCID</a>
+          </div>
+
+          <p class="mt-6 text-sm text-text-muted">
+            <a href="mailto:keitaishizuka1994@gmail.com" class="inline-flex items-center gap-2 font-medium text-accent hover:underline">
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" /><path d="m2 4.5 6 4 6-4" /></svg>
+              keitaishizuka1994@gmail.com
+            </a>
+          </p>
+        </div>
+        {photo && (
+          <img
+            src={`/${photo}?v=${photoV}`}
+            alt={t(locale, 'home.photo_alt')}
+            width="208"
+            height="208"
+            loading="eager"
+            class="hidden sm:block sm:w-52 aspect-square shrink-0 mt-[5px] rounded-2xl object-cover border border-border"
+          />
+        )}
+      </div>
+    </section>
+
+    <SectionNav locale={locale} pubKeys={pubSections.map((s) => s.key)} />
+
+    <section id="research" class="scroll-mt-28 py-16 border-t border-border">
+      <h2 class="text-2xl font-bold text-primary mb-6">{t(locale, 'home.section.research')}</h2>
+      <p class="text-text leading-relaxed mb-8">{t(locale, 'home.research.preview')}</p>
+      <a
+        href={localePath(locale, '/research/')}
+        class="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent hover:text-accent hover:bg-surface"
+      >
+        {t(locale, 'home.research.more')}
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+
+    <section id="publications" class="scroll-mt-28 py-16 border-t border-border">
+      <h2 class="text-2xl font-bold text-primary mb-2">{t(locale, 'home.section.publications')}</h2>
+      <p class="text-text-muted text-sm mb-10">{t(locale, 'home.section.publications_desc')}</p>
+
+      {pubSections.filter((sec) => sec.items.length > 0).map((sec) => (
+        <div id={`pub-${sec.key}`} data-pub-section class="mb-12 scroll-mt-28">
+          <div class="mb-6">
+            <div class="flex items-baseline gap-2">
+              <h3 class="text-lg font-semibold text-primary">{t(locale, `home.section.${sec.key}`)}</h3>
+              <span class="font-mono text-xs text-text-muted">{sec.items.length}</span>
+            </div>
+            <p class="text-text-muted text-xs mt-1">{t(locale, `home.section.${sec.key}_note`)}</p>
+          </div>
+          <div class="space-y-6">
+            {sec.items.map((pub: any, i: number) => (
+              <div class={`pub-entry border-l-2 border-accent/20 pl-5 py-1 hover:border-accent${i >= PUB_LIMIT ? ' pub-more' : ''}`} hidden={i >= PUB_LIMIT}>
+                <div class="flex items-baseline gap-3 mb-1">
+                  {sec.numbered && (
+                    <span class="font-mono text-xs text-text-muted shrink-0">[{sec.prefix}{sec.items.length - i}]</span>
+                  )}
+                  <h4 class="font-medium leading-snug">{pub.title_ja || pub.title}</h4>
+                </div>
+                <p class={`text-sm text-text-muted mb-1 ${sec.numbered ? 'ml-8' : ''}`} set:html={formatAuthors(pub.authors)} />
+                <p class={`text-sm ${sec.numbered ? 'ml-8' : ''}`}>
+                  {sec.key !== 'preprints' && (pub.venue_ja || pub.journal || pub.venue) && <span class="text-accent font-medium">{pub.venue_ja || pub.journal || pub.venue}</span>}
+                  {pub.volume && <span class="text-text-muted">, {pub.volume}{pub.issue ? `(${pub.issue})` : ''}</span>}
+                  {pub.pages && <span class="text-text-muted">, pp. {pub.pages}</span>}
+                  {pub.article_number && <span class="text-text-muted">, Art. {pub.article_number}</span>}
+                  {pub.year && <span class="text-text-muted"> ({pub.year})</span>}
+                  {TO_APPEAR.includes(pub.status) && (
+                    <span class="ml-2 text-xs font-medium text-accent">{t(locale, 'home.pub.to_appear')}</span>
+                  )}
+                  {UNDER_REVIEW.includes(pub.status) && pub.status !== 'preprint' && (
+                    <span class="ml-2 text-xs font-medium text-text-muted">{t(locale, 'home.pub.under_review')}</span>
+                  )}
+                </p>
+                <div class={`flex gap-3 mt-2 ${sec.numbered ? 'ml-8' : ''}`}>
+                  {pub.doi && (
+                    <a href={`https://doi.org/${pub.doi}`} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">DOI</a>
+                  )}
+                  {hasArxiv(pub) && (
+                    <a href={`https://arxiv.org/abs/${pub.arxiv}`} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">arXiv:{pub.arxiv}</a>
+                  )}
+                  {pub.dataset && (
+                    <a href={localePath(locale, `/data/#${pub.dataset}`)} class="text-xs font-mono px-2 py-0.5 bg-surface-alt text-text-muted rounded hover:text-accent transition-colors">{t(locale, 'home.pub.data')}</a>
+                  )}
+                  {pub.url && !pub.doi && (
+                    <a href={pub.url} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">リンク</a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          {sec.items.length > PUB_LIMIT && (
+            <button
+              type="button"
+              class="pub-toggle mt-5 ml-5 inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-text-muted transition-colors hover:border-accent hover:text-accent hover:bg-surface"
+              aria-expanded="false"
+              data-all={t(locale, 'home.pub.show_all').replace('{n}', String(sec.items.length))}
+              data-less={t(locale, 'home.pub.show_less')}
+            >
+              <span class="pub-toggle-label">{t(locale, 'home.pub.show_all').replace('{n}', String(sec.items.length))}</span>
+              <svg class="pub-chevron h-3 w-3 transition-transform" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+          )}
+        </div>
+      ))}
+    </section>
+
+    <section id="grants" class="scroll-mt-28 py-16 border-t border-border">
+      <h2 class="text-2xl font-bold text-primary mb-2">{t(locale, 'home.section.grants')}</h2>
+      <p class="text-text-muted text-sm mb-8">{t(locale, 'home.section.grants_desc')}</p>
+
+      {grantGroups.map((group) => (
+        <div class="mb-10">
+          <h3 class="text-lg font-semibold text-primary mb-1">{t(locale, `home.grants.${group.key}`)}</h3>
+          <p class="text-text-muted text-xs mb-5">{t(locale, `home.grants.${group.key}_note`)}</p>
+          <div class="space-y-6">
+            {group.items.map((grant: any) => (
+              <div class="p-5 bg-surface rounded-xl">
+                <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                  <div class="min-w-0 sm:flex-1">
+                    <h4 class="font-medium mb-1">{locale === 'ja' ? grant.title : (grant.title_en || grant.title)}</h4>
+                    <p class="text-sm text-text-muted">
+                      {locale === 'ja' ? grant.type : (grant.type_en || grant.type)}
+                      {grant.number && <span class="font-mono ml-2">({grant.number})</span>}
+                      {grant.role && <span class="ml-2 text-xs">[{grant.role === 'PI' ? '研究代表者' : (grant.role === 'fellow' ? 'フェロー' : grant.role)}]</span>}
+                    </p>
+                    {(locale === 'ja' ? grant.description_ja : grant.description) && (
+                      <p class="text-sm text-text mt-2 leading-relaxed">{locale === 'ja' ? grant.description_ja : grant.description}</p>
+                    )}
+                    {(locale === 'ja' ? grant.selectivity_ja : grant.selectivity) && (
+                      <p class="text-sm text-text-muted mt-2 leading-relaxed">{locale === 'ja' ? grant.selectivity_ja : grant.selectivity}</p>
+                    )}
+                    <div class="flex gap-3 mt-3">
+                      {grant.kaken_id && (
+                        <a href={`https://kaken.nii.ac.jp/${locale}/grant/KAKENHI-PROJECT-${grant.kaken_id}/`} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">KAKEN</a>
+                      )}
+                      {grant.record_url && (
+                        <a href={grant.record_url} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">{grant.record_label || t(locale, 'home.grants.record')}</a>
+                      )}
+                    </div>
+                  </div>
+                  <div class="order-first sm:order-none sm:text-right sm:shrink-0">
+                    {grant.show_amount === true && typeof grant.amount_jpy === 'number' && (
+                      <p class="text-sm font-medium text-accent">{Math.round(grant.amount_jpy / 10000).toLocaleString('ja-JP')}万円</p>
+                    )}
+                    <p class="text-xs text-text-muted">{formatPeriod(grant.period)}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section id="background" class="scroll-mt-28 py-16 border-t border-border">
+      <h2 class="text-2xl font-bold text-primary mb-8">{t(locale, 'home.section.background')}</h2>
+
+      {cvGroups.map((group) => (
+        <div class="mb-12 last:mb-0">
+          <h3 class="text-lg font-semibold text-primary mb-6">{t(locale, `home.bg.${group.key}`)}</h3>
+          <div class="space-y-8">
+            {group.items.map((row: any) => (
+              <div class="flex flex-col sm:flex-row gap-1 sm:gap-6">
+                <div class="sm:w-32 shrink-0 sm:text-right">
+                  <p class="text-sm font-mono text-text-muted">{locale === 'ja' ? row.when_ja : row.when}</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">{locale === 'ja' ? row.title_ja : row.title}</h4>
+                  <p class="text-text-muted text-sm">{locale === 'ja' ? (row.org_ja || row.org) : row.org}</p>
+                  {(locale === 'ja' ? row.note_ja : row.note) && (
+                    <p class="text-text-muted text-sm mt-1">{locale === 'ja' ? row.note_ja : row.note}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="mt-12">
+        <h3 class="text-lg font-semibold text-primary mb-3">{t(locale, 'home.bg.service')}</h3>
+        <p class="text-text-muted text-sm leading-relaxed">{refereeLine}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-border mt-8">
+    <div class="max-w-4xl mx-auto px-6 py-8 text-center text-xs text-text-muted">
+      <p>&copy; {new Date().getFullYear()} Keita Ishizuka. Built with Astro.</p>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('.pub-toggle')) {
+    const section = btn.closest<HTMLElement>('[data-pub-section]');
+    const label = btn.querySelector('.pub-toggle-label');
+    if (!section || !label) continue;
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      for (const el of section.querySelectorAll<HTMLElement>('.pub-more')) el.hidden = open;
+      btn.setAttribute('aria-expanded', String(!open));
+      label.textContent = (open ? btn.dataset.all : btn.dataset.less) ?? '';
+      btn.classList.toggle('is-open', !open);
+      if (open) section.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  }
+</script>

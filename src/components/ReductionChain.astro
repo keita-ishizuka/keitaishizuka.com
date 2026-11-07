@@ -1,0 +1,52 @@
+---
+interface Props {
+  locale?: 'en' | 'ja';
+}
+const { locale = 'en' } = Astro.props;
+const ja = locale === 'ja';
+
+const boxes = ja
+  ? [
+      { k: 'LEP', s: '線形同値' },
+      { k: 'PEP', s: '置換同値' },
+      { k: 'GI', s: 'グラフ同型' },
+    ]
+  : [
+      { k: 'LEP', s: 'linear equivalence' },
+      { k: 'PEP', s: 'permutation equivalence' },
+      { k: 'GI', s: 'graph isomorphism' },
+    ];
+const edges = ja
+  ? ['closure（Sendrier–Simos）', '直交射影による帰着（Bardet ら）']
+  : ['closure (Sendrier–Simos)', 'projector reduction (Bardet et al.)'];
+const tail = ja
+  ? 'そして Babai のアルゴリズムが GI を準多項式時間で解く'
+  : 'and Babai decides GI in quasipolynomial time';
+const cap = ja
+  ? 'closure は線形同値を置換同値に帰着し、LCD であることを保つので、Bardet らの直交射影による帰着と合成できます。連鎖の終点はグラフ同型で、Babai のアルゴリズムがこれを準多項式時間で解きます。'
+  : 'The closure reduces linear equivalence to permutation equivalence and preserves the LCD property, so it composes with the projector reduction of Bardet et al. The chain ends at graph isomorphism, which Babai decides in quasipolynomial time.';
+---
+
+<figure class="not-prose my-10">
+  <div class="rounded-xl border border-border bg-surface p-6">
+    <div class="flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-1">
+      {boxes.map((b, i) => (
+        <>
+          {i > 0 && (
+            <div class="flex shrink-0 flex-col items-center text-text-muted sm:px-1">
+              <span class="text-lg leading-none rotate-90 sm:rotate-0" aria-hidden="true">&rarr;</span>
+              <span class="mt-0.5 max-w-[7rem] text-center text-[10px] leading-tight">{edges[i - 1]}</span>
+            </div>
+          )}
+          <div class="rounded-lg border border-accent/30 bg-accent/10 px-3 py-2 text-center leading-snug">
+            <span class="block font-mono text-sm font-semibold text-primary">{b.k}</span>
+            <span class="block text-[10px] text-text-muted">{b.s}</span>
+          </div>
+        </>
+      ))}
+    </div>
+
+    <p class="mt-3 text-center text-[11px] text-text-muted">{tail}</p>
+  </div>
+  <figcaption class="mt-3 text-xs leading-relaxed text-text-muted">{cap}</figcaption>
+</figure>

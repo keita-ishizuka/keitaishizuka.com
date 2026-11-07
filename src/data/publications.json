@@ -1,0 +1,530 @@
+{
+  "papers": [
+    {
+      "id": 13,
+      "title": "Poster: Reducing Hull Dimensions for Efficient Permutation Recovery in Code-Based Cryptography",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "Proceedings of the 2025 ACM SIGSAC Conference on Computer and Communications Security (CCS 2025)",
+      "pages": "4812-4814",
+      "year": 2025,
+      "status": "published",
+      "type": "poster",
+      "doi": "10.1145/3719027.3760735"
+    },
+    {
+      "id": 1,
+      "title": "Constructions of self-orthogonal and LCD subspace codes",
+      "authors": [
+        "Dean Crnković",
+        "Keita Ishizuka",
+        "Hadi Kharaghani",
+        "Sho Suda",
+        "Andrea Švob"
+      ],
+      "journal": "Discrete Mathematics",
+      "volume": "349",
+      "issue": "6",
+      "pages": "115066",
+      "year": 2026,
+      "month": 6,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1016/j.disc.2026.115066",
+      "arxiv": "2407.05695"
+    },
+    {
+      "id": 2,
+      "title": "Characterizations of the minimum weights of LCD codes of large dimensions",
+      "authors": [
+        "Makoto Araya",
+        "Masaaki Harada",
+        "Keita Ishizuka",
+        "Yuto Tanaka"
+      ],
+      "journal": "IEEE Transactions on Information Theory",
+      "volume": "70",
+      "issue": "12",
+      "pages": "8758-8769",
+      "year": 2024,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1109/TIT.2024.3483218"
+    },
+    {
+      "id": 3,
+      "title": "Ternary Extremal Four-Negacirculant Self-Dual Codes",
+      "authors": [
+        "Masaaki Harada",
+        "Keita Ishizuka",
+        "Hadi Kharaghani"
+      ],
+      "journal": "Graphs and Combinatorics",
+      "volume": "40",
+      "issue": "3",
+      "article_number": "59",
+      "year": 2024,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1007/s00373-024-02788-3",
+      "arxiv": "2306.10451"
+    },
+    {
+      "id": 4,
+      "title": "Hadamard matrices of order 36 formed by codewords in some ternary self-dual codes",
+      "authors": [
+        "Masaaki Harada",
+        "Keita Ishizuka"
+      ],
+      "journal": "Discrete Mathematics",
+      "volume": "347",
+      "issue": "1",
+      "pages": "113661",
+      "year": 2024,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1016/j.disc.2023.113661",
+      "arxiv": "2303.05056"
+    },
+    {
+      "id": 5,
+      "title": "Construction of quaternary Hermitian LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "Cryptography and Communications",
+      "volume": "15",
+      "issue": "2",
+      "pages": "455-467",
+      "year": 2023,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1007/s12095-022-00614-2",
+      "arxiv": "2207.00801"
+    },
+    {
+      "id": 6,
+      "title": "On the existence of quaternary Hermitian LCD codes with Hermitian dual distance 1",
+      "authors": [
+        "Keita Ishizuka",
+        "Ken Saito"
+      ],
+      "journal": "Discrete Mathematics",
+      "volume": "345",
+      "issue": "2",
+      "pages": "112702",
+      "year": 2022,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.1016/j.disc.2021.112702",
+      "arxiv": "2104.07432"
+    },
+    {
+      "id": 7,
+      "title": "Construction for both self-dual codes and LCD codes",
+      "authors": [
+        "Keita Ishizuka",
+        "Ken Saito"
+      ],
+      "journal": "Advances in Mathematics of Communications",
+      "volume": "17",
+      "issue": "1",
+      "pages": "139-151",
+      "year": 2023,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.3934/amc.2021070",
+      "arxiv": "2108.12544"
+    },
+    {
+      "id": 8,
+      "title": "Classification of optimal quaternary Hermitian LCD codes of dimension 2",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "Journal of Algebra Combinatorics Discrete Structures and Applications",
+      "volume": "7",
+      "issue": "3",
+      "pages": "229-236",
+      "year": 2020,
+      "status": "published",
+      "type": "journal",
+      "doi": "10.13069/jacodesmath.790748",
+      "arxiv": "2004.07059"
+    },
+    {
+      "id": 9,
+      "title": "Almost All Vectorial Functions Have Trivial Extended-Affine Stabilizers",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "Discrete Mathematics",
+      "year": 2026,
+      "status": "under_review",
+      "type": "journal",
+      "arxiv": "2602.06668"
+    },
+    {
+      "id": 10,
+      "title": "Binary LCD Codes and Their Graph Representations",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "year": 2024,
+      "status": "under_review",
+      "type": "journal",
+      "arxiv": "2407.07689",
+      "dataset": "even_lcd_graphs"
+    },
+    {
+      "id": 11,
+      "title": "The Closure of LCD-to-GI Reductions via Generalized Inner Products",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "IEEE Transactions on Information Theory",
+      "year": 2026,
+      "status": "under_review",
+      "type": "journal",
+      "arxiv": "2605.23120"
+    },
+    {
+      "id": 12,
+      "title": "DNA Data Storage Technology Review (Japanese translation)",
+      "authors": [
+        "Takaki Nakamura",
+        "Keita Ishizuka",
+        "Yuichi Aoki"
+      ],
+      "journal": "DNA Data Storage Alliance / SNIA Japan",
+      "year": 2026,
+      "month": 3,
+      "status": "published",
+      "type": "translation",
+      "url": "https://www.snia-j.org/tech/wh/"
+    },
+    {
+      "id": 14,
+      "title": "Comparative monotonicity of linear codes by Hermitian and symplectic hull dimensions",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "year": 2026,
+      "status": "superseded",
+      "type": "journal"
+    },
+    {
+      "id": 15,
+      "title": "Caps and LCD Codes with Large Dimensions",
+      "authors": [
+        "Keita Ishizuka",
+        "Yuhi Kamio"
+      ],
+      "year": 2026,
+      "status": "under review (revision 1)",
+      "type": "journal",
+      "arxiv": "2604.03734",
+      "dataset": "codim8"
+    },
+    {
+      "id": 16,
+      "title": "Bilinear Hulls for Support Splitting: Characterization, Optimization, and Applications",
+      "authors": [
+        "Yusuke Aikawa",
+        "Keita Ishizuka",
+        "Tomoki Moriya"
+      ],
+      "journal": "SAC 2026 (Selected Areas in Cryptography), Springer LNCS post-proceedings",
+      "venue": "SAC 2026 (Selected Areas in Cryptography, Ottawa)",
+      "year": 2026,
+      "status": "camera_ready_submitted",
+      "type": "proceedings",
+      "arxiv": "2611.01337"
+    },
+    {
+      "id": 17,
+      "title": "Uniform Sampling of Self-Orthogonal Codes via Orthogonal Group Actions",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "journal": "IEEE Information Theory Workshop (ITW) 2026, Tempe",
+      "venue": "ITW 2026 (IEEE Information Theory Workshop)",
+      "year": 2026,
+      "status": "accepted",
+      "type": "proceedings"
+    },
+    {
+      "id": 18,
+      "title": "Uniform Sampling of Linear Codes with Prescribed Hull Dimension",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "IEEE Transactions on Information Theory (planned)",
+      "year": 2026,
+      "status": "preprint",
+      "type": "journal",
+      "arxiv": "2611.03578"
+    },
+    {
+      "id": 20,
+      "title": "Enumeration and Monotonicity of Linear Codes with Prescribed Hull Dimensions",
+      "authors": [
+        "Stefka Bouyuklieva",
+        "Iliya Bouyukliev",
+        "Keita Ishizuka",
+        "Ferruh Özbudak"
+      ],
+      "journal": "Designs, Codes and Cryptography (WCC 2026 special issue)",
+      "year": 2026,
+      "status": "submitted",
+      "type": "journal",
+      "arxiv": "2605.29204"
+    },
+    {
+      "id": 21,
+      "title": "Deza graphs from balanced generalized weighing matrices",
+      "authors": [
+        "Keita Ishizuka",
+        "Hadi Kharaghani"
+      ],
+      "year": 2026,
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 24,
+      "title": "Classification of binary, ternary and quaternary Hermitian LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "Designs, Codes and Cryptography",
+      "year": 2026,
+      "status": "submitted",
+      "type": "journal",
+      "arxiv": "2610.30561",
+      "dataset": "lcd_classification"
+    },
+    {
+      "id": 25,
+      "title": "Signed graph representations of ternary LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 26,
+      "title": "Binary LCD codes of minimum distance three: a probabilistic approach",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "IEEE Transactions on Information Theory (target, 当初)",
+      "status": "planned",
+      "type": "journal"
+    },
+    {
+      "id": 27,
+      "title": "Auxiliary matrices and decompositions of affine divisible design graphs",
+      "authors": [
+        "Keita Ishizuka",
+        "Hadi Kharaghani"
+      ],
+      "venue": "J. Combin. Des. (target)",
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 28,
+      "title": "The number of inequivalent linear codes with prescribed hull dimension",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 29,
+      "title": "Edge-disjoint and mutually Siamese triples of strongly regular graphs",
+      "authors": [
+        "Keita Ishizuka",
+        "Hadi Kharaghani"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 30,
+      "title": "The minimum distance of a random self-dual code: a Poisson limit theorem",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 31,
+      "title": "The distance of a random stabilizer code: a Poisson limit theorem",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 32,
+      "title": "Linear Insertion--Deletion Codes over Small Fields: Exact Values and the Binary Optimality",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "status": "draft",
+      "type": "journal"
+    },
+    {
+      "id": 33,
+      "title": "On extended-affine symmetries of vectorial Boolean functions",
+      "title_ja": "ベクトル値ブール関数の拡大アフィン対称性について",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "2026 Symposium on Cryptography and Information Security (SCIS 2026)",
+      "year": 2026,
+      "month": 1,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 34,
+      "title": "Speeding up the support splitting algorithm using bilinear forms",
+      "title_ja": "双線形形式を用いたSupport Splitting Algorithmの高速化",
+      "authors": [
+        "Yusuke Aikawa",
+        "Keita Ishizuka",
+        "Tomoki Moriya"
+      ],
+      "venue": "2026 Symposium on Cryptography and Information Security (SCIS 2026)",
+      "year": 2026,
+      "month": 1,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 35,
+      "title": "On largest minimum weights of binary LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "41st Symposium on Algebraic Combinatorics",
+      "venue_ja": "第41回代数的組合せ論シンポジウム",
+      "year": 2025,
+      "month": 6,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 36,
+      "title": "Linear complementary dual codes and its applications",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "Topology and Geometry Seminar, Hiroshima University",
+      "venue_ja": "広島大学トポロジー幾何セミナー",
+      "year": 2025,
+      "month": 5,
+      "status": "presented",
+      "type": "seminar"
+    },
+    {
+      "id": 37,
+      "title": "On weak keys in SPN block ciphers via the correlation matrix",
+      "title_ja": "Correlation Matrix を用いた SPN ブロック暗号における弱鍵に関する考察",
+      "authors": [
+        "Keita Ishizuka",
+        "Kosei Sakamoto",
+        "Rentaro Shiba"
+      ],
+      "venue": "2025 Symposium on Cryptography and Information Security (SCIS 2025)",
+      "year": 2025,
+      "month": 1,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 38,
+      "title": "Orthogonal projectors of binary LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "Finite Group Theory, Algebraic Combinatorics and Vertex Algebras",
+      "venue_ja": "有限群論、代数的組合せ論、頂点代数の研究",
+      "year": 2024,
+      "month": 12,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 39,
+      "title": "Orthogonal projectors of binary LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "New Constructions of Expander Graphs and Their Applications 3",
+      "venue_ja": "エクスパンダーグラフの新しい構成手法の確立とその応用3",
+      "year": 2024,
+      "month": 9,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 40,
+      "title": "Construction and characterization of LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "39th Symposium on Algebraic Combinatorics",
+      "venue_ja": "第39回代数的組合せ論シンポジウム",
+      "year": 2023,
+      "month": 6,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 41,
+      "title": "Construction of quaternary Hermitian LCD codes",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "Joint Research Meeting on Applied Mathematics 2022",
+      "venue_ja": "2022年度応用数学合同研究集会",
+      "year": 2022,
+      "month": 12,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 42,
+      "title": "Classification of optimal quaternary Hermitian LCD codes of dimension 2",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "Workshop on Discrete Mathematics and Its Applications 2020",
+      "venue_ja": "離散数学とその応用研究集会2020",
+      "year": 2020,
+      "month": 8,
+      "status": "presented",
+      "type": "talk"
+    },
+    {
+      "id": 43,
+      "title": "Exactly Uniform Sampling of Entanglement-Assisted Quantum Codes with a Prescribed Number of Ebits",
+      "authors": [
+        "Keita Ishizuka"
+      ],
+      "venue": "QIP 2027 (30th Conference on Quantum Information Processing), Singapore",
+      "year": 2027,
+      "status": "accepted",
+      "type": "poster"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "grants": [
+    {
+      "title": "DNA記憶のための小アルファベット挿入削除訂正符号の基礎理論",
+      "title_en": "Foundations of Small-Alphabet Insertion-Deletion Correcting Codes for DNA Data Storage",
+      "type": "防衛装備庁 安全保障技術研究推進制度 タイプC（委託）",
+      "type_en": "ATLA Innovative Science and Technology Initiative for Security, Type C",
+      "role": "PI",
+      "period": "2026-12 to 2029-03",
+      "record_label": "ATLA",
+      "record_url": "https://www.mod.go.jp/atla/pinup/pinup_r081020.pdf",
+      "status": "awarded_pre_contract"
+    },
+    {
+      "title": "符号、グラフ、アダマール行列の関係の解明",
+      "title_en": "Elucidating the Relationships between Codes, Graphs, and Hadamard Matrices",
+      "description": "International collaboration with Prof. Hadi Kharaghani at the University of Lethbridge (Canada) to investigate deep structural connections between error-correcting codes, graph invariants, and Hadamard matrices through algebraic and computational methods.",
+      "description_ja": "レスブリッジ大学（カナダ）のHadi Kharaghani教授との国際共同研究。代数的・計算的手法により、誤り訂正符号・グラフ不変量・アダマール行列の間の深い構造的関連を解明する。",
+      "type": "国際共同研究加速基金（国際共同研究強化）",
+      "type_en": "KAKENHI Fund for the Promotion of Joint International Research (Fostering Joint International Research)",
+      "role": "PI",
+      "period": "2026-04 to 2029-03",
+      "number": "JP25KK0004",
+      "kaken_id": "25KK0004",
+      "status": "active"
+    },
+    {
+      "title": "グラフと符号の不変量の関係の解明",
+      "title_en": "Elucidating the Relationships between Graph and Code Invariants",
+      "description": "Developing a framework connecting graph-theoretic invariants with code-theoretic properties, enabling the use of graph isomorphism algorithms for code equivalence testing and the construction of new codes from combinatorial structures.",
+      "description_ja": "グラフ理論的不変量と符号理論的性質を結びつける枠組みの構築。グラフ同型アルゴリズムによる符号の同値判定や、組合せ構造からの新しい符号の構成を可能にする。",
+      "type": "若手研究",
+      "type_en": "Grant-in-Aid for Early-Career Scientists (KAKENHI)",
+      "role": "PI",
+      "period": "2025-04 to 2028-03",
+      "number": "JP25K17290",
+      "kaken_id": "25K17290",
+      "status": "active"
+    },
+    {
+      "title": "符号理論を用いた耐量子計算機暗号の開発と安全性評価",
+      "title_en": "Development and Security Evaluation of Post-Quantum Cryptography Using Coding Theory",
+      "description": "Applying algebraic coding theory to analyze and improve the security of code-based post-quantum cryptographic schemes.",
+      "description_ja": "代数的符号理論を応用し、符号ベース耐量子計算機暗号方式の安全性を解析・向上させる。",
+      "type": "研究活動スタート支援",
+      "type_en": "Grant-in-Aid for Research Activity Start-up (KAKENHI)",
+      "role": "PI",
+      "period": "2024-07 to 2026-03",
+      "number": "JP24K23876",
+      "kaken_id": "24K23876",
+      "status": "completed"
+    }
+  ]
+}

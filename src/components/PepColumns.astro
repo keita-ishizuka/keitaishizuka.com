@@ -1,0 +1,65 @@
+---
+interface Props {
+  locale?: 'en' | 'ja';
+}
+const { locale = 'en' } = Astro.props;
+const ja = locale === 'ja';
+
+// columns a…f of a binary [6,3] code, then the same columns in the order 3 1 5 2 6 4
+const G1 = [
+  [1, 0, 0, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1],
+  [0, 0, 1, 0, 1, 1],
+];
+const G2 = [
+  [0, 1, 1, 0, 0, 1],
+  [0, 0, 0, 1, 1, 1],
+  [1, 0, 1, 0, 1, 0],
+];
+const idx1 = [1, 2, 3, 4, 5, 6];
+const idx2 = [3, 1, 5, 2, 6, 4];
+
+const cap = ja
+  ? '2つの符号が置換同値であるとは、一方の生成行列の列を並べ替えると他方になることです。下の番号は、その列が G で何番目だったかを示しています。このような並べ替えがあるかどうかを判定するのが置換同値問題で、符号の分類のボトルネックであり、符号ベース署名の困難性仮定でもあります。'
+  : 'Two codes are permutation-equivalent when the columns of one generator matrix, reordered, give the other. The small numbers say where each column stood in G. Deciding whether such a reordering exists is the permutation equivalence problem: the bottleneck of classification, and the hardness assumption behind code-based signatures.';
+const labels = ja
+  ? { left: 'G（符号 C）', right: 'G′（符号 C′）', arrow: '列を σ で並べ替え', foot: '列の番号' }
+  : { left: 'G (code C)', right: 'G′ (code C′)', arrow: 'columns reordered by σ', foot: 'original column' };
+---
+
+<figure class="not-prose my-10">
+  <div class="rounded-xl border border-border bg-surface p-6">
+    <div class="flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-8">
+      {[
+        { m: G1, idx: idx1, name: labels.left },
+        { m: G2, idx: idx2, name: labels.right },
+      ].map((mat, side) => (
+        <>
+          {side === 1 && (
+            <div class="flex flex-col items-center text-text-muted">
+              <span class="text-2xl leading-none rotate-90 sm:rotate-0" aria-hidden="true">&rarr;</span>
+              <span class="mt-1 max-w-[9rem] text-center text-xs leading-snug">{labels.arrow}</span>
+            </div>
+          )}
+          <div class="text-center">
+            <p class="mb-2 font-mono text-xs text-text-muted">{mat.name}</p>
+            <div class="relative inline-block px-3 py-1">
+              <span class="absolute inset-y-0 left-0 w-2 rounded-l-[3px] border-2 border-r-0 border-border" aria-hidden="true"></span>
+              <span class="absolute inset-y-0 right-0 w-2 rounded-r-[3px] border-2 border-l-0 border-border" aria-hidden="true"></span>
+              <div class="grid grid-cols-6 gap-x-2 gap-y-0.5 px-1 font-mono text-sm tabular-nums">
+                {mat.m.map((row) => row.map((v) => (
+                  <span class={v === 1 ? 'text-accent' : 'text-text-muted'}>{v}</span>
+                )))}
+              </div>
+            </div>
+            <div class="mt-1 grid grid-cols-6 gap-x-2 px-4 font-mono text-[10px] text-text-muted">
+              {mat.idx.map((i) => <span>{i}</span>)}
+            </div>
+          </div>
+        </>
+      ))}
+    </div>
+    <p class="mt-4 text-center font-mono text-[11px] text-text-muted">{labels.foot}</p>
+  </div>
+  <figcaption class="mt-3 text-xs leading-relaxed text-text-muted">{cap}</figcaption>
+</figure>

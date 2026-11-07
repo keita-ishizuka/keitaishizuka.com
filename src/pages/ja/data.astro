@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import DataSets from '../../components/DataSets.astro';
+import { t } from '../../i18n';
+
+const locale = 'ja' as const;
+---
+
+<Layout title={t(locale, 'data.title')} description={t(locale, 'data.description')}>
+  <Nav current="data" />
+  <DataSets locale={locale} />
+</Layout>

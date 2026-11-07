@@ -1,0 +1,146 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article';
+  published?: Date;
+}
+
+const { title, description, type = 'website', published } = Astro.props;
+
+const SITE = 'https://keitaishizuka.com';
+
+// normalise the current path to a trailing slash so canonical URLs never split
+const rawPath = Astro.url.pathname;
+const path = rawPath.endsWith('/') ? rawPath : `${rawPath}/`;
+
+const locale: 'en' | 'ja' = path.startsWith('/ja/') ? 'ja' : 'en';
+const htmlLang = locale === 'ja' ? 'ja' : 'en';
+const ogLocale = locale === 'ja' ? 'ja_JP' : 'en_US';
+
+const canonical = `${SITE}${path}`;
+const enPath = path.replace(/^\/ja\//, '/en/');
+const jaPath = path.replace(/^\/en\//, '/ja/');
+
+const isHome = path === '/en/' || path === '/ja/';
+const ogImage = `${SITE}/og.png`;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Keita Ishizuka',
+  alternateName: '石塚 慶太',
+  url: `${SITE}/en/`,
+  image: ogImage,
+  jobTitle: 'Research Associate',
+  email: 'mailto:keitaishizuka1994@gmail.com',
+  description:
+    'Research Associate at Mitsubishi Electric Corporation working on algebraic coding theory, post-quantum cryptography, and combinatorial designs.',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Mitsubishi Electric Corporation',
+    department: { '@type': 'Organization', name: 'Information Technology R&D Center' },
+    url: 'https://www.mitsubishielectric.com/',
+  },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Tohoku University', url: 'https://www.tohoku.ac.jp/en/' },
+  knowsAbout: [
+    'Algebraic coding theory',
+    'LCD codes',
+    'Self-dual codes',
+    'Post-quantum cryptography',
+    'Combinatorial design theory',
+    'Hadamard matrices',
+    'Quantum error correction',
+    'DNA data storage',
+  ],
+  knowsLanguage: ['ja', 'en'],
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'ORCID',
+    value: 'https://orcid.org/0000-0001-5943-6245',
+  },
+  sameAs: [
+    'https://orcid.org/0000-0001-5943-6245',
+    'https://scholar.google.com/citations?user=JCmQRmUAAAAJ',
+    'https://researchmap.jp/keita_ishizuka',
+  ],
+};
+
+const webSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Keita Ishizuka',
+  url: `${SITE}/en/`,
+  inLanguage: ['en', 'ja'],
+  author: { '@type': 'Person', name: 'Keita Ishizuka' },
+};
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('theme');
+          const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.dataset.theme = 'dark';
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Keita Ishizuka" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={`${SITE}${enPath}`} />
+    <link rel="alternate" hreflang="ja" href={`${SITE}${jaPath}`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE}${enPath}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Keita Ishizuka" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Keita Ishizuka — algebraic coding theory, post-quantum cryptography, combinatorial designs" />
+    {type === 'article' && published && (
+      <meta property="article:published_time" content={published.toISOString()} />
+    )}
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+
+    {isHome && (
+      <Fragment>
+        <script type="application/ld+json" set:html={JSON.stringify(person)} />
+        <script type="application/ld+json" set:html={JSON.stringify(webSite)} />
+      </Fragment>
+    )}
+  </head>
+  <body class="min-h-screen">
+    <slot />
+  </body>
+</html>

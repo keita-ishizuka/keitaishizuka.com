@@ -1,0 +1,48 @@
+---
+interface Props {
+  locale?: 'en' | 'ja';
+}
+const { locale = 'en' } = Astro.props;
+const ja = locale === 'ja';
+
+const reach = ja
+  ? [
+      { label: '&#8467; = 0', note: 'LCD、すべて帰着できる', on: true },
+      { label: '&#8467; = 1', note: '一部だけ帰着できる（本研究）', on: 'part' },
+      { label: '&#8467; &ge; 2', note: '直交射影による帰着は届かない', on: false },
+    ]
+  : [
+      { label: '&#8467; = 0', note: 'LCD: every code reduces', on: true },
+      { label: '&#8467; = 1', note: 'part of them reduce (this work)', on: 'part' },
+      { label: '&#8467; &ge; 2', note: 'out of reach of projector reductions', on: false },
+    ];
+const title = ja
+  ? 'PEP → GI の帰着が届く範囲（hull 次元 &#8467; ごと）'
+  : 'How far the PEP &rarr; GI reduction reaches, by hull dimension &#8467;';
+const cap = ja
+  ? '置換同値からグラフ同型への帰着は、LCD 符号のすべてと hull 次元 1 の一部を覆います。そこから先へは直交射影に基づく帰着は届かない、というのが本研究の結論です。'
+  : 'The reduction from permutation equivalence to graph isomorphism covers every LCD code and part of hull dimension one. Nothing beyond that is in reach of a projector-based reduction, and that is what my work settles.';
+---
+
+<figure class="not-prose my-10">
+  <div class="rounded-xl border border-border bg-surface p-6">
+    <p class="mb-3 text-[11px] font-semibold uppercase tracking-wider text-text-muted" set:html={title} />
+    <div class="grid gap-2 sm:grid-cols-3">
+      {reach.map((r) => (
+        <div class="flex items-start gap-2 rounded-md bg-page/60 px-3 py-2">
+          <span
+            class={`mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full ${
+              r.on === true ? 'bg-accent' : r.on === 'part' ? 'bg-accent/40 ring-1 ring-accent' : 'bg-border'
+            }`}
+            aria-hidden="true"
+          ></span>
+          <span class="text-xs leading-snug">
+            <span class="font-mono text-primary" set:html={r.label} />
+            <span class="block text-text-muted">{r.note}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+  <figcaption class="mt-3 text-xs leading-relaxed text-text-muted">{cap}</figcaption>
+</figure>

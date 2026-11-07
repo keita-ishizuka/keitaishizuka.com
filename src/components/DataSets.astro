@@ -1,0 +1,222 @@
+---
+import { t } from '../i18n';
+import SectionNav from './SectionNav.astro';
+import data from '../data/datasets.json';
+
+interface Props {
+  locale: 'en' | 'ja';
+}
+const { locale } = Astro.props;
+
+const collections = data.collections as any[];
+
+function gb(bytes: number) {
+  if (bytes < 1e6) return `${Math.round(bytes / 1e3)} kB`;
+  if (bytes < 1e9) return `${(bytes / 1e6).toFixed(1)} MB`;
+  return `${(bytes / 1e9).toFixed(1)} GB`;
+}
+
+function localised(obj: any, key: string) {
+  return locale === 'ja' ? obj[`${key}_ja`] || obj[key] : obj[key];
+}
+
+function recordWord(n: number) {
+  return locale === 'ja' ? t(locale, 'data.records') : t(locale, n === 1 ? 'data.record' : 'data.records');
+}
+
+function sizeOf(c: any) {
+  return c.records.reduce((s: number, r: any) => s + r.bytes, 0);
+}
+
+const SUBS: Record<string, string> = { '\u2080': '0', '\u2081': '1', '\u2082': '2', '\u2083': '3', '\u2084': '4', '\u2085': '5', '\u2086': '6', '\u2087': '7', '\u2088': '8', '\u2089': '9' };
+function asciiTitle(s: string) {
+  return s.replace(/[\u2080-\u2089]/g, (ch) => SUBS[ch]);
+}
+
+function citeDoi(c: any) {
+  return c.records[0].concept_doi || c.records[0].doi;
+}
+
+// BibTeX stays in English whatever the page language: it goes into a paper.
+function bibtex(c: any) {
+  const year = c.published.slice(0, 4);
+  const key = `ishizuka${year}${c.key.replace(/_/g, '')}`;
+  const authors = c.paper.authors
+    .map((a: string) => {
+      const parts = a.split(' ');
+      return `${parts[parts.length - 1]}, ${parts.slice(0, -1).join(' ')}`;
+    })
+    .join(' and ');
+  const lines = [
+    `@misc{${key},`,
+    `  author    = {${authors}},`,
+    `  title     = {${asciiTitle(c.title)}},`,
+    `  year      = {${year}},`,
+    `  publisher = {Zenodo},`,
+    `  doi       = {${citeDoi(c)}},`,
+    `  url       = {https://doi.org/${citeDoi(c)}}`,
+  ];
+  if (c.records.length > 1) {
+    lines[lines.length - 1] += ',';
+    lines.push(`  note      = {Dataset; ${c.records.length} records, each with its own DOI}`);
+  }
+  lines.push('}');
+  return lines.join('\n');
+}
+
+const totalBytes = collections.reduce((s, c) => s + sizeOf(c), 0);
+const totalRecords = collections.reduce((s, c) => s + c.records.length, 0);
+
+const navItems = collections.map((c) => ({ id: c.key, label: localised(c, 'short') || localised(c, 'title') }));
+---
+
+<SectionNav locale={locale} items={navItems} inline={false} offset="24rem" />
+
+<main class="max-w-3xl mx-auto px-6 pt-28 pb-20">
+  <h1 class="text-3xl font-bold text-primary mb-4">{t(locale, 'data.h1')}</h1>
+  <p class="text-text leading-relaxed mb-3">{t(locale, 'data.lede')}</p>
+  <p class="text-text-muted text-sm mb-10">
+    {collections.length} {t(locale, collections.length === 1 ? 'data.set' : 'data.sets')} · {totalRecords} {recordWord(totalRecords)} · {gb(totalBytes)}
+  </p>
+
+  {/* index: every dataset is one click away, however many there end up being */}
+  <nav aria-label={t(locale, 'data.index')} class="mb-16 rounded-xl border border-border bg-surface p-5">
+    <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">{t(locale, 'data.index')}</p>
+    <ol class="space-y-1">
+      {collections.map((c, i) => (
+        <li>
+          <a
+            href={`#${c.key}`}
+            class="group flex items-baseline gap-3 rounded-md py-1.5 transition-colors hover:text-accent"
+          >
+            <span class="font-mono text-xs text-text-muted shrink-0">{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-sm text-text group-hover:text-accent">{localised(c, 'title')}</span>
+            <span class="ml-auto hidden sm:block font-mono text-xs text-text-muted shrink-0">
+              {c.records.length} · {gb(sizeOf(c))}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+
+  {collections.map((c) => (
+    <section id={c.key} class="scroll-mt-28 mb-20">
+      <h2 class="text-xl font-bold text-primary mb-3">{localised(c, 'title')}</h2>
+      <p class="text-text leading-relaxed mb-5">{localised(c, 'summary')}</p>
+
+      {c.table && (
+        <div class="overflow-x-auto mb-5">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-border text-left text-text-muted">
+                {(localised(c.table, 'head') as string[]).map((h, i) => (
+                  <th
+                    class={`py-2 font-medium ${i === 3 ? 'text-right' : 'pr-4'} ${i === 2 ? 'hidden sm:table-cell' : ''}`}
+                  >{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {c.table.rows.map((r: any) => (
+                <tr class="border-b border-border/60">
+                  <td class="py-2 pr-4">
+                    <span class="font-mono text-accent">{r.label}</span>
+                    {localised(r, 'sub') && <span class="text-text-muted ml-2">{localised(r, 'sub')}</span>}
+                  </td>
+                  <td class="py-2 pr-4 font-mono">{r.c1}</td>
+                  <td class="py-2 pr-4 text-text-muted hidden sm:table-cell">{localised(r, 'c2')}</td>
+                  <td class="py-2 text-right font-mono text-text-muted">{gb(r.bytes)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <dl class="text-sm space-y-1 mb-5">
+        <div class="flex gap-3">
+          <dt class="text-text-muted w-32 shrink-0">{t(locale, 'data.paper')}</dt>
+          <dd>
+            {c.paper.authors.join(', ')}, <em>{c.paper.title}</em>
+            {c.paper.arxiv && (
+              <a
+                href={`https://arxiv.org/abs/${c.paper.arxiv}`}
+                class="ml-2 font-mono text-xs px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors"
+                target="_blank"
+                rel="noopener"
+              >arXiv:{c.paper.arxiv}</a>
+            )}
+          </dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-text-muted w-32 shrink-0">{t(locale, 'data.format')}</dt>
+          <dd class="text-text">{localised(c, 'format')}</dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-text-muted w-32 shrink-0">{t(locale, 'data.license')}</dt>
+          <dd class="font-mono text-text">{c.license}</dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-text-muted w-32 shrink-0">{t(locale, 'data.published')}</dt>
+          <dd class="font-mono text-text">{c.published}</dd>
+        </div>
+        {c.updated && (
+          <div class="flex gap-3">
+            <dt class="text-text-muted w-32 shrink-0">{t(locale, 'data.updated')}</dt>
+            <dd class="text-text"><span class="font-mono">{c.updated}</span>: {localised(c, 'updated_note')}</dd>
+          </div>
+        )}
+      </dl>
+
+      <div class="bg-surface rounded-xl p-5">
+        <p class="text-text-muted text-xs mb-3">
+          {c.records.length} {recordWord(c.records.length)} · {gb(sizeOf(c))} · {t(locale, 'data.doi_note')}
+        </p>
+        <ul class="space-y-2">
+          {c.records.map((r: any) => (
+            <li class="text-sm flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
+              <a
+                href={`https://doi.org/${r.concept_doi || r.doi}`}
+                class="font-mono text-xs text-accent hover:underline shrink-0"
+                target="_blank"
+                rel="noopener"
+              >{r.concept_doi || r.doi}</a>
+              <span class="text-text-muted">{r.title}{r.version ? ` (v${r.version})` : ''}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-5">
+        <div class="flex items-baseline gap-3 mb-2">
+          <h3 class="text-sm font-semibold text-primary">{t(locale, 'data.cite_one')}</h3>
+          <button
+            type="button"
+            class="copy-bib ml-auto rounded-md border border-border px-2.5 py-1 font-mono text-xs text-text-muted transition-colors hover:border-accent hover:text-accent hover:bg-surface"
+            data-copy={t(locale, 'data.copy')}
+            data-copied={t(locale, 'data.copied')}
+          >{t(locale, 'data.copy')}</button>
+        </div>
+        <p class="text-text-muted text-xs mb-3">{t(locale, 'data.cite_note')}</p>
+        <pre class="bib bg-surface rounded-xl p-5 overflow-x-auto text-xs font-mono leading-relaxed text-text">{bibtex(c)}</pre>
+      </div>
+    </section>
+  ))}
+</main>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('.copy-bib')) {
+    const pre = btn.closest('div')?.parentElement?.querySelector('pre.bib');
+    if (!pre) continue;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.textContent ?? '');
+        btn.textContent = btn.dataset.copied ?? '';
+        setTimeout(() => (btn.textContent = btn.dataset.copy ?? ''), 1600);
+      } catch {
+        /* clipboard blocked: the text is on screen anyway */
+      }
+    });
+  }
+</script>

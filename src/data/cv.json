@@ -1,0 +1,70 @@
+{
+  "appointments": [
+    {
+      "when": "2024 –",
+      "when_ja": "2024年〜",
+      "title": "Research Associate",
+      "title_ja": "研究員",
+      "org": "Mitsubishi Electric Corporation, Information Technology R&D Center",
+      "org_ja": "三菱電機株式会社 情報技術総合研究所",
+      "note": "Post-quantum cryptography, code-based security",
+      "note_ja": "耐量子計算機暗号、符号ベースセキュリティ"
+    }
+  ],
+  "visits": [
+    {
+      "when": "2026",
+      "when_ja": "2026年",
+      "title": "University of Lethbridge",
+      "title_ja": "レスブリッジ大学",
+      "org": "Canada",
+      "org_ja": "カナダ",
+      "note": "Jul – Dec 2026 · Supported by KAKENHI JP25KK0004 (own grant) · Host: Prof. Hadi Kharaghani",
+      "note_ja": "2026年7月〜12月 · 国際共同研究加速基金（国際共同研究強化）JP25KK0004（研究代表者） · 受入: Hadi Kharaghani 教授"
+    },
+    {
+      "when": "2023",
+      "when_ja": "2023年",
+      "title": "University of Lethbridge",
+      "title_ja": "レスブリッジ大学",
+      "org": "Canada",
+      "org_ja": "カナダ",
+      "note": "Sep – Nov 2023 · Tohoku University Graduate Program in Data Science (GP-DS) · Host: Prof. Hadi Kharaghani",
+      "note_ja": "2023年9月〜11月 · 東北大学 データ科学国際共同大学院（GP-DS） · 受入: Hadi Kharaghani 教授"
+    }
+  ],
+  "education": [
+    {
+      "when": "2021 – 2024",
+      "when_ja": "2021年〜2024年",
+      "title": "Ph.D. in Information Science",
+      "title_ja": "博士（情報科学）",
+      "org": "Tohoku University",
+      "org_ja": "東北大学"
+    },
+    {
+      "when": "2019 – 2021",
+      "when_ja": "2019年〜2021年",
+      "title": "M.S. in Information Science",
+      "title_ja": "修士（情報科学）",
+      "org": "Tohoku University",
+      "org_ja": "東北大学"
+    },
+    {
+      "when": "2013 – 2019",
+      "when_ja": "2013年〜2019年",
+      "title": "B.Eng.",
+      "title_ja": "学士（工学）",
+      "org": "Tohoku University",
+      "org_ja": "東北大学"
+    }
+  ],
+  "service": {
+    "referee_for": [
+      "Advances in Mathematics of Communications",
+      "Computational and Applied Mathematics",
+      "Finite Fields and Their Applications",
+      "Journal of Applied Mathematics and Computing"
+    ]
+  }
+}

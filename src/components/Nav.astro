@@ -1,0 +1,80 @@
+---
+import { t, getLocaleFromUrl, switchLocalePath, localePath } from '../i18n';
+import type { Locale } from '../i18n';
+
+interface Props {
+  current?: 'home' | 'research' | 'data';
+}
+const { current = 'home' } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url) as Locale;
+const otherLocale: Locale = locale === 'en' ? 'ja' : 'en';
+---
+
+<nav class="fixed top-0 w-full bg-page/80 backdrop-blur-md border-b border-border z-50">
+  <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+    <a href={localePath(locale, '/')} class="font-semibold text-primary tracking-tight whitespace-nowrap">Keita Ishizuka</a>
+    <div class="flex items-center gap-4 sm:gap-5 text-sm text-text-muted whitespace-nowrap">
+      <a href={localePath(locale, '/')} class={current === 'home' ? 'text-accent font-medium' : 'hover:text-accent transition-colors'}>{t(locale, 'nav.home')}</a>
+      <a href={localePath(locale, '/research/')} class={current === 'research' ? 'text-accent font-medium' : 'hover:text-accent transition-colors'}>{t(locale, 'nav.research')}</a>
+      <a href={localePath(locale, '/data')} class={current === 'data' ? 'text-accent font-medium' : 'hover:text-accent transition-colors'}>{t(locale, 'nav.data')}</a>
+      <span class="text-border">|</span>
+
+      <a
+        href={switchLocalePath(Astro.url, otherLocale)}
+        hreflang={otherLocale}
+        aria-label={otherLocale === 'en' ? 'Switch to English' : '日本語に切り替え'}
+        class="group inline-flex items-center gap-1.5 hover:text-accent transition-colors"
+      >
+        {otherLocale === 'en' ? (
+          <svg class="h-3.5 w-5 shrink-0 rounded-[2px] ring-1 ring-border" viewBox="0 0 60 42" aria-hidden="true">
+            <clipPath id="uk-clip"><path d="M0,0 v42 h60 v-42 z" /></clipPath>
+            <rect width="60" height="42" fill="#012169" />
+            <path d="M0,0 L60,42 M60,0 L0,42" stroke="#fff" stroke-width="8" />
+            <path d="M0,0 L60,42 M60,0 L0,42" stroke="#c8102e" stroke-width="5" clip-path="url(#uk-clip)" />
+            <path d="M30,0 v42 M0,21 h60" stroke="#fff" stroke-width="13" />
+            <path d="M30,0 v42 M0,21 h60" stroke="#c8102e" stroke-width="8" />
+          </svg>
+        ) : (
+          <svg class="h-3.5 w-5 shrink-0 rounded-[2px] ring-1 ring-border" viewBox="0 0 60 42" aria-hidden="true">
+            <rect width="60" height="42" fill="#fff" />
+            <circle cx="30" cy="21" r="12.6" fill="#bc002d" />
+          </svg>
+        )}
+        <span class="font-mono text-xs uppercase">{otherLocale === 'en' ? 'EN' : 'JA'}</span>
+      </a>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label={t(locale, 'nav.theme')}
+        title={t(locale, 'nav.theme')}
+        aria-pressed="false"
+        class="inline-flex h-7 w-7 items-center justify-center rounded-md hover:text-accent hover:bg-surface transition-colors"
+      >
+        <svg class="theme-moon h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16.5 11.8A7 7 0 0 1 8.2 3.5a7 7 0 1 0 8.3 8.3z" />
+        </svg>
+        <svg class="theme-sun h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="10" cy="10" r="3.6" />
+          <path d="M10 1.8v2M10 16.2v2M18.2 10h-2M3.8 10h-2M15.8 4.2l-1.4 1.4M5.6 14.4l-1.4 1.4M15.8 15.8l-1.4-1.4M5.6 5.6 4.2 4.2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const sync = () => btn?.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+  sync();
+  btn?.addEventListener('click', () => {
+    const dark = root.dataset.theme === 'dark';
+    if (dark) delete root.dataset.theme;
+    else root.dataset.theme = 'dark';
+    try {
+      localStorage.setItem('theme', dark ? 'light' : 'dark');
+    } catch {}
+    sync();
+  });
+</script>

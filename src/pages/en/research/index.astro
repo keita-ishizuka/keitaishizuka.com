@@ -1,0 +1,131 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import SectionNav from '../../../components/SectionNav.astro';
+import HullVenn from '../../../components/HullVenn.astro';
+import SamplerOrbit from '../../../components/SamplerOrbit.astro';
+import PepColumns from '../../../components/PepColumns.astro';
+import ReductionChain from '../../../components/ReductionChain.astro';
+import HullReach from '../../../components/HullReach.astro';
+import { refs } from '../../../data/research_refs';
+import pubsData from '../../../data/publications.json';
+
+const locale = 'en' as const;
+
+// a paper title in the text links to its DOI when published, otherwise to the arXiv page
+const byId = new Map((pubsData.papers as any[]).map((p) => [p.id, p]));
+const pubUrl = (id: number) => {
+  const p = byId.get(id);
+  if (!p) return null;
+  if (p.doi) return `https://doi.org/${p.doi}`;
+  if (p.arxiv) return `https://arxiv.org/abs/${p.arxiv}`;
+  return null;
+};
+
+const navItems = [
+  { id: 'hull', label: 'Hulls of linear codes' },
+  { id: 'sampler', label: 'Uniform sampler' },
+  { id: 'equivalence', label: 'Equivalence and GI' },
+  { id: 'classification', label: 'Complete classifications' },
+  { id: 'references', label: 'References' },
+];
+---
+
+<Layout
+  title="Research — Keita Ishizuka"
+  description="What I am working on: the hull of a linear code and its dimension, exactly uniform sampling of codes with a prescribed hull dimension, the complexity of permutation equivalence, and complete classifications of binary, ternary and quaternary Hermitian LCD codes."
+>
+  <Nav current="research" />
+  <SectionNav locale={locale} items={navItems} inline={false} offset="24rem" />
+
+  <main class="max-w-3xl mx-auto px-6 pt-28 pb-20">
+    <div class="mb-2">
+      <span class="text-accent font-mono text-sm font-medium">Research</span>
+    </div>
+    <h1 class="text-3xl font-bold text-primary tracking-tight mb-6">Research Interests</h1>
+
+    <p class="text-lg text-text leading-relaxed mb-12">My research focuses on coding theory. Traditionally, error-correcting codes are technology that enables reliable communication over a noisy channel. They are now also tied to other mathematical objects in combinatorics, and they have various applications to cryptography and to quantum error correction, as we shall see below. On this page, I explain what my current concerns are, with selected publications.</p>
+
+    <div class="prose max-w-none text-text leading-relaxed">
+      <section id="hull" class="scroll-mt-28">
+        <h2 class="text-xl font-bold text-primary mb-4">Hulls of linear codes</h2>
+        <p>A linear code is a subspace <em>C</em> of F<sub>q</sub><sup>n</sup>, and its dual <em>C</em><sup>&perp;</sup> is the orthogonal space of <em>C</em> with respect to a bilinear or sesquilinear form. The <strong>hull</strong> is the intersection of the two, and its dimension &#8467; ranges from 0 to <em>k</em> = dim <em>C</em>.</p>
+
+        <HullVenn locale={locale} />
+
+        <p>The hull describes all linear codes in one frame, with the classical families, self-dual codes among them, as the special cases.</p>
+        <ul>
+          <li>At &#8467; = <em>k</em> the code is contained in its dual and is called self-orthogonal, and self-dual when 2<em>k</em> = <em>n</em>.</li>
+          <li>At &#8467; = 0 the code meets its dual trivially, which is the LCD case, introduced by Massey <a href="#ref-1" class="cite">[1]</a> and the subject of a large literature of its own.</li>
+          <li>Between them lies everything else.</li>
+        </ul>
+
+        <p>There are many results showing the importance of the hull.</p>
+        <ul>
+          <li>Self-orthogonal codes are the instances of the code-based signature scheme SPECK <a href="#ref-2" class="cite">[2]</a>, and codes with a prescribed hull dimension are a building block of the Hollow LWE scheme <a href="#ref-3" class="cite">[3]</a>.</li>
+          <li>LCD codes were brought into cryptography by Carlet and Guilley <a href="#ref-4" class="cite">[4]</a> as a countermeasure against side-channel and fault injection attacks.</li>
+          <li>The hull dimension dominates the cost of the support splitting algorithm <a href="#ref-5" class="cite">[5]</a>, the standard solver of the permutation equivalence problem, and so it decides how hard an instance is.</li>
+          <li>For the symplectic and the Hermitian form, the hull dimension of <em>C</em> is exactly the number of ebits consumed by the entanglement-assisted quantum error-correcting code (EAQECC) built from <em>C</em> <a href="#ref-6" class="cite">[6]</a><a href="#ref-7" class="cite">[7]</a>, so certain quantum codes are equivalent to these codes.</li>
+        </ul>
+
+        <p>Both theoretically and practically, I find the hulls of linear codes very interesting. I am currently focusing on characterizations of the hull and its applications to cryptography and quantum error correction. The following are some of my projects.</p>
+      </section>
+
+      <section id="sampler" class="scroll-mt-28">
+        <h2 class="text-xl font-bold text-primary mt-12 mb-4">A uniform sampler for linear codes with a prescribed hull dimension</h2>
+        <p>My work <a href={pubUrl(18)} target="_blank" rel="noopener">Uniform Sampling of Linear Codes with Prescribed Hull Dimension</a> gives an exactly uniform sampling algorithm over the [<em>n</em>, <em>k</em>] codes of hull dimension &#8467;. It is a single framework that covers every finite field F<sub>q</sub> and all the standard inner products, Euclidean, Hermitian and symplectic. The proof builds on the classical theory of reflexive forms, Witt's extension theorem and the classification of such forms <a href="#ref-8" class="cite">[8]</a>, together with the subgroup algorithm of Diaconis and Shahshahani for sampling a group uniformly <a href="#ref-9" class="cite">[9]</a>.</p>
+
+        <SamplerOrbit locale={locale} />
+
+        <ul>
+          <li>Schemes built on code equivalence assume exactly this uniform sampling: SPECK <a href="#ref-2" class="cite">[2]</a> draws a uniformly random self-orthogonal code in key generation, and Hollow LWE <a href="#ref-3" class="cite">[3]</a> draws uniformly random codes with a prescribed hull dimension. What was known, however, covers odd characteristic and 2<em>k</em> &le; <em>n</em> only, and for a prescribed hull dimension alone its output is merely within total variation distance q<sup>&minus;(k&minus;&#8467;)/2</sup> of uniform <a href="#ref-10" class="cite">[10]</a>. The samplers given here are exactly uniform for every standard inner product and every characteristic.</li>
+          <li>Certain security questions therefore reduce to the typical behaviour of such codes, and the sampler now enables Monte Carlo simulation and theoretical analysis of these properties.</li>
+          <li>On the quantum side, for the symplectic and Hermitian forms the hull dimension is precisely the number of ebits consumed by the entanglement-assisted quantum code built from <em>C</em>, so the same sampler draws EAQECCs with a prescribed number of ebits. That consequence is the subject of a poster at QIP 2027.</li>
+          <li>Classification of codes up to permutation equivalence usually proceeds by systematic enumeration, in which candidates are visited in a fixed order and compared with a growing list of inequivalent representatives; under the limits of the available computing time, equivalence classes that lie late in the order may never be reached in practice. The sampler supplies a complementary approach, for it returns a code uniformly at random, and in the paper the classical coupon collector argument gives the number of samples a classification needs.</li>
+        </ul>
+      </section>
+
+      <section id="equivalence" class="scroll-mt-28">
+        <h2 class="text-xl font-bold text-primary mt-12 mb-4">Permutation equivalence and graph isomorphism</h2>
+        <p>Two codes are permutation-equivalent if a permutation of coordinates carries one to the other. Deciding equivalence is the bottleneck of code classification, and it is also the hardness assumption behind certain cryptographic schemes.</p>
+
+        <PepColumns locale={locale} />
+
+        <p>Petrank and Roth showed that graph isomorphism reduces to permutation equivalence <a href="#ref-11" class="cite">[11]</a>. Conversely, Bardet and coauthors reduced the equivalence of LCD codes to graph isomorphism <a href="#ref-12" class="cite">[12]</a>. Since Babai's algorithm decides graph isomorphism in quasipolynomial time <a href="#ref-13" class="cite">[13]</a>, deciding the equivalence of LCD codes is easy. A natural question follows: is there any code other than LCD whose permutation equivalence reduces to graph isomorphism?</p>
+        <p>My work <a href={pubUrl(11)} target="_blank" rel="noopener">The Closure of LCD-to-GI Reductions via Generalized Inner Products</a> answers that question. Replacing the Euclidean inner product by an arbitrary bilinear form generalises the orthogonal projector that drives the argument, and the reduction then reaches beyond the LCD case to part of hull dimension one. Furthermore, I prove that this is everything a projector-based reduction can reach. The codes that do reduce are characterised and counted, so their proportion among all codes is now known.</p>
+
+        <HullReach locale={locale} />
+
+        <p>Another work on permutation equivalence concerns the support splitting algorithm <a href="#ref-5" class="cite">[5]</a>, the standard solver for the permutation equivalence problem. The cost of the algorithm is dominated by the hull dimension. Using the same generalised forms as above, we characterized when the hull dimension can be lowered while the conditions that make the algorithm applicable are preserved, and I identify the classes of dimensions where this is possible. I presented the result at SAC 2026, as <a href={pubUrl(16)} target="_blank" rel="noopener">Bilinear Hulls for Support Splitting</a>.</p>
+      </section>
+
+      <section id="classification" class="scroll-mt-28">
+        <h2 class="text-xl font-bold text-primary mt-12 mb-4">Complete classifications of binary, ternary and quaternary LCD codes</h2>
+        <p>In the work above I start from coding theory and apply the results to cryptography. In the work that follows I go the other way, and apply a technique developed in the cryptanalysis of code-based schemes to the classification of codes.</p>
+        <p>The closure of a linear code, introduced by Sendrier and Simos <a href="#ref-14" class="cite">[14]</a>, reduces linear equivalence to permutation equivalence. It preserves the LCD property, so composing it with the LCD-to-GI reduction gives a chain from linear equivalence through permutation equivalence to graph isomorphism.</p>
+
+        <ReductionChain locale={locale} />
+        <p>The chain carried the classification past the lengths Leon's algorithm <a href="#ref-15" class="cite">[15]</a> can reach. Every binary LCD code up to length 19, every ternary one up to length 15 and every quaternary Hermitian one up to length 13 is now classified. Furthermore, we argued that this is as far as we can go, by showing that pushing to the next length would mean terabytes to petabytes of output, which cannot be stored or distributed with the computing resources available today. The result appeared as <a href={pubUrl(24)} target="_blank" rel="noopener">Classification of binary, ternary and quaternary Hermitian LCD codes</a>.</p>
+
+        <p>A representative of every equivalence class is published as open data, together with the binary LCD codes and their graph representations: <a href="/en/data/#lcd_classification">the datasets are listed here</a>.</p>
+      </section>
+
+      <section id="references" class="scroll-mt-28 not-prose">
+        <h2 class="text-xl font-bold text-primary mt-12 mb-6">References</h2>
+        <ol class="space-y-3">
+          {refs.map((r) => (
+            <li id={`ref-${r.n}`} class="ref-item flex gap-3 text-sm leading-relaxed scroll-mt-28 px-2 py-1">
+              <span class="font-mono text-xs text-text-muted shrink-0 pt-0.5">[{r.n}]</span>
+              <span class="text-text">
+                {r.text}
+                {r.href && (
+                  <a href={r.href} class="ml-2 font-mono text-xs text-accent hover:underline" target="_blank" rel="noopener">link</a>
+                )}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  </main>
+</Layout>
