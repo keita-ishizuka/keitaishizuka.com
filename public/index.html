@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Keita Ishizuka</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://keitaishizuka.com/en/">
+<meta http-equiv="refresh" content="0; url=/en/">
+<style>html{background:#ffffff}@media (prefers-color-scheme:dark){html{background:#101317}}</style>
+<script>
+  // send Japanese browsers to /ja/, everyone else to /en/; replace() keeps / out of history
+  var langs = navigator.languages || [navigator.language || ''];
+  var ja = Array.prototype.some.call(langs, function (l) { return /^ja\b/i.test(l); });
+  location.replace(ja ? '/ja/' : '/en/');
+</script>
+</head>
+<body></body>
+</html>
