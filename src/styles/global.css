@@ -20,8 +20,9 @@ html {
   color-scheme: light;
 }
 
-/* dark palette: the same tokens, re-bound. set on <html> before first paint. */
-html[data-theme='dark'] {
+/* dark palette: the same tokens, re-bound. follows the operating system. */
+@media (prefers-color-scheme: dark) {
+  :root {
   color-scheme: dark;
   --color-primary: #e9edf4;
   --color-accent: #58a6d8;
@@ -32,9 +33,11 @@ html[data-theme='dark'] {
   --color-text-muted: #98a2b0;
   --color-border: #2c313a;
   --color-page: #101317;
-}
+  }
+  }
 
-html[data-theme='dark'] .prose {
+@media (prefers-color-scheme: dark) {
+  .prose {
   --tw-prose-body: var(--color-text);
   --tw-prose-headings: var(--color-primary);
   --tw-prose-lead: var(--color-text-muted);
@@ -51,6 +54,7 @@ html[data-theme='dark'] .prose {
   --tw-prose-pre-bg: var(--color-surface-alt);
   --tw-prose-th-borders: var(--color-border);
   --tw-prose-td-borders: var(--color-border);
+  }
 }
 
 body {
@@ -73,10 +77,6 @@ body {
   transform: translateX(4px);
 }
 
-
-.theme-sun { display: none; }
-html[data-theme='dark'] .theme-sun { display: block; }
-html[data-theme='dark'] .theme-moon { display: none; }
 
 .pub-toggle.is-open .pub-chevron {
   transform: rotate(180deg);
