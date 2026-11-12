@@ -240,7 +240,9 @@
       "year": 2026,
       "status": "camera_ready_submitted",
       "type": "proceedings",
-      "arxiv": "2611.01337"
+      "arxiv": "2611.01337",
+      "slides": "/slides/SAC2026_Ishizuka_slides.pdf",
+      "slides_label": "Slides (SAC 2026)"
     },
     {
       "id": 17,
