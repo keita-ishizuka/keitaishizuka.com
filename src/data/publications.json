@@ -252,7 +252,9 @@
       "venue": "ITW 2026 (IEEE Information Theory Workshop)",
       "year": 2026,
       "status": "accepted",
-      "type": "proceedings"
+      "type": "proceedings",
+      "slides": "/slides/ITW2026_Ishizuka_slides.pdf",
+      "slides_label": "Slides (ITW 2026)"
     },
     {
       "id": 18,

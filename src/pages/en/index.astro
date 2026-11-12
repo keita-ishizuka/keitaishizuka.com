@@ -15,6 +15,10 @@ const cvPath = new URL('../../../public/cv.pdf', import.meta.url);
 const cvV = fs.existsSync(cvPath)
   ? crypto.createHash('sha256').update(fs.readFileSync(cvPath)).digest('hex').slice(0, 10)
   : '';
+const slidesPath = new URL('../../../public/slides/ITW2026_Ishizuka_slides.pdf', import.meta.url);
+const slidesV = fs.existsSync(slidesPath)
+  ? crypto.createHash('sha256').update(fs.readFileSync(slidesPath)).digest('hex').slice(0, 10)
+  : '';
 
 const ORCID = '0000-0001-5943-6245';
 
@@ -194,6 +198,9 @@ function formatAuthors(authors: any, highlight: string = 'Keita Ishizuka') {
                   )}
                   {pub.dataset && (
                     <a href={localePath(locale, `/data/#${pub.dataset}`)} class="text-xs font-mono px-2 py-0.5 bg-surface-alt text-text-muted rounded hover:text-accent transition-colors">{t(locale, 'home.pub.data')}</a>
+                  )}
+                  {pub.slides && (
+                    <a href={`${pub.slides}?v=${slidesV}`} class="text-xs font-mono px-2 py-0.5 bg-surface-alt text-text-muted rounded hover:text-accent transition-colors" target="_blank" rel="noopener">{t(locale, 'home.pub.slides')}</a>
                   )}
                   {pub.url && !pub.doi && (
                     <a href={pub.url} class="text-xs font-mono px-2 py-0.5 bg-accent/10 text-accent rounded hover:bg-accent/20 transition-colors" target="_blank" rel="noopener">Link</a>

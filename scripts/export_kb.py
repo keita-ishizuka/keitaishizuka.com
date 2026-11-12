@@ -12,7 +12,7 @@ OUT = Path(__file__).resolve().parent.parent / "src" / "data"
 
 PAPER = ["id", "title", "title_ja", "authors", "journal", "venue", "venue_ja", "volume",
          "issue", "pages", "article_number", "year", "month", "status", "type",
-         "doi", "arxiv", "dataset", "url"]
+         "doi", "arxiv", "dataset", "url", "slides", "slides_label"]
 GRANT = ["title", "title_en", "title_ja", "description", "description_ja", "type", "type_en",
          "role", "period", "number", "kaken_id", "record_label", "record_url",
          "selectivity", "selectivity_ja", "status", "show_amount", "amount_jpy"]
