@@ -167,12 +167,13 @@
     },
     {
       "id": 10,
-      "title": "Binary LCD Codes and Their Graph Representations",
+      "title": "Binary LCD Codes and their Graph Representations",
       "authors": [
         "Keita Ishizuka"
       ],
-      "year": 2024,
-      "status": "under_review",
+      "journal": "Designs, Codes and Cryptography",
+      "year": 2026,
+      "status": "accepted",
       "type": "journal",
       "arxiv": "2407.07689",
       "dataset": "even_lcd_graphs"
