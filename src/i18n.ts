@@ -151,7 +151,7 @@ const ui = {
     'home.section.other_note': '翻訳など査読を経ない成果。',
     'home.pub.show_all': 'すべて表示（{n}件）',
     'home.pub.show_less': '折りたたむ',
-    'home.pub.to_appear': '掲載予定',
+    'home.pub.to_appear': 'to appear',
     'home.pub.data': 'データ',
     'home.pub.slides': 'スライド',
     'home.pub.under_review': '査読中',

@@ -33,7 +33,7 @@ const hasArxiv = (p: any) => typeof p.arxiv === 'string' && ARXIV_RE.test(p.arxi
 const OUT = ['published', 'accepted', 'camera_ready_submitted', 'in_press', 'presented'];
 const TO_APPEAR = ['accepted', 'camera_ready_submitted', 'in_press'];
 const UNDER_REVIEW = ['preprint', 'under_review', 'submitted', 'under review (revision 1)'];
-const byYearDesc = (a: any, b: any) => (b.year || 0) - (a.year || 0) || (b.month || 12) - (a.month || 0);
+const byYearDesc = (a: any, b: any) => (b.year || 0) - (a.year || 0) || (b.month ?? 12) - (a.month ?? 12);
 const ofType = (t: string) => pubsData.papers.filter((p: any) => p.type === t && OUT.includes(p.status)).sort(byYearDesc);
 
 const shownGrants = grantsData.grants.filter((g: any) => g.show_on_site !== false);

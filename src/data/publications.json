@@ -173,6 +173,7 @@
       ],
       "journal": "Designs, Codes and Cryptography",
       "year": 2026,
+      "month": 11,
       "status": "accepted",
       "type": "journal",
       "arxiv": "2407.07689",
@@ -254,7 +255,7 @@
       "journal": "IEEE Information Theory Workshop (ITW) 2026, Tempe",
       "venue": "ITW 2026 (IEEE Information Theory Workshop)",
       "year": 2026,
-      "status": "accepted",
+      "status": "presented",
       "type": "proceedings",
       "slides": "/slides/ITW2026_Ishizuka_slides.pdf",
       "slides_label": "Slides (ITW 2026)"

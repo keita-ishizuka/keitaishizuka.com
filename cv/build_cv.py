@@ -26,6 +26,7 @@ ORCID = "0000-0001-5943-6245"
 SCHOLAR = "scholar.google.com/citations?user=JCmQRmUAAAAJ"
 
 OUT = ["published", "accepted", "camera_ready_submitted", "in_press", "presented"]
+TO_APPEAR = ["accepted", "camera_ready_submitted", "in_press"]
 UNDER_REVIEW = ["preprint", "under_review", "submitted", "under review (revision 1)"]
 ARXIV_RE = re.compile(r"^\d{4}\.\d{4,5}$")
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -79,6 +80,8 @@ def venue_line(p, kind):
         label = None if status == "preprint" else ("under review" if "review" in str(status) else "submitted")
         if label:
             tail.insert(0, label)
+    if kind != "preprint" and p.get("status") in TO_APPEAR:
+        bits.append("to appear")
     line = ", ".join(bits) + line_year
     if tail:
         line += (" " if line.strip() else "") + f'<span class="meta">{" · ".join(tail)}</span>'
